@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd">
+
+	<import resource="persistence.xml" />
+
+	<!-- Bean de envio de email -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host">
+			<value>${mail.smtp.host}</value>
+		</property>
+		<property name="username">
+			<value>${mail.smtp.username}</value>
+		</property>
+		<property name="password">
+			<value>${mail.smtp.password}</value>
+		</property>
+		<property name="protocol">
+			<value>smtp</value>
+		</property>
+		<property name="port">
+			<value>${mail.smtp.port}</value>
+		</property>
+		<property name="defaultEncoding">
+			<value>${mail.mime.encoding}</value>
+		</property>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.mime.charset">${mail.mime.charset}</prop>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
+				<prop key="mail.debug">${app.environment.debug}</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="mailService" class="com.service.mail.JavaMailService">
+		<constructor-arg ref="mailSender" />
+		<constructor-arg value="${app.environment.desenv}" />
+	</bean>
+
+	<bean id="Service" class="com.service.impl.Service">
+		<property name="dao" ref="Dao" />
+	</bean>
+
+	<bean id="LogService" class="com.service.impl.LogService" parent="Service">
+	</bean>
+
+	<bean id="UsuarioService" class="com.service.impl.UsuarioService"
+		parent="Service">
+		<property name="userDAO" ref="UsuarioDaoImpl" />
+		<property name="mailSend" ref="mailService" />
+		<property name="perfilService" ref="PerfilService" />
+	</bean>
+
+	<bean id="ClienteService" class="com.service.impl.ClienteService"
+		parent="Service">
+		<property name="usuarioService" ref="UsuarioService" />
+	</bean>
+
+	<bean id="PerfilService" class="com.service.impl.PerfilService"
+		parent="Service">
+		<property name="perfilDAO" ref="PerfilDaoImpl" />
+	</bean>
+
+	<bean id="FuncaoService" class="com.service.impl.FuncaoService"
+		parent="Service">
+	</bean>
+
+	<bean id="MotivoService" class="com.service.impl.MotivoService"
+		parent="Service">
+	</bean>
+
+	<bean id="CondicaoAmostraService" class="com.service.impl.CondicaoAmostraService"
+		parent="Service">
+	</bean>
+
+	<bean id="FormaService" class="com.service.impl.FormaService"
+		parent="Service">
+	</bean>
+
+	<bean id="GrupoService" class="com.service.impl.GrupoService"
+		parent="Service">
+	</bean>
+
+	<bean id="ItemGrupoService" class="com.service.impl.ItemGrupoService"
+		parent="Service">
+	</bean>
+
+	<bean id="MicrorganismoService" class="com.service.impl.MicrorganismoService"
+		parent="Service">
+	</bean>
+
+	<bean id="ItemPadraoService" class="com.service.impl.ItemPadraoService"
+		parent="Service">
+	</bean>
+
+	<bean id="PadraoService" class="com.service.impl.PadraoService"
+		parent="Service">
+	</bean>
+
+	<bean id="ConfiguracaoService" class="com.service.impl.ConfiguracaoService"
+		parent="Service">
+	</bean>
+
+	<bean id="LaudoService" class="com.service.impl.LaudoService"
+		parent="Service">
+		<property name="laudoDao" ref="LaudoDaoImpl" />
+	</bean>
+
+	<bean id="NotificacaoService" class="com.service.impl.NotificacaoService"
+		parent="Service">
+		<property name="notificacaoDAO" ref="NotificacaoDaoImpl" />
+	</bean>
+
+	<bean id="SolicitacaoService" class="com.service.impl.SolicitacaoService"
+		parent="Service">
+		<property name="mailSend" ref="mailService" />
+		<property name="usuarioService" ref="UsuarioService" />
+		<property name="configuracaoService" ref="ConfiguracaoService" />
+	</bean>
+
+	<bean id="AmostraService" class="com.service.impl.AmostraService"
+		parent="Service">
+		<property name="amostraDAO" ref="AmostraDaoImpl" />
+		<property name="mailSend" ref="mailService" />
+		<property name="usuarioService" ref="UsuarioService" />
+	</bean>
+
+	<bean id="ResultadoService" class="com.service.impl.ResultadoService"
+		parent="Service">
+	</bean>
+
+</beans>

@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<f:loadBundle basename="mensagens" var="msgs" />
+
+<h:head>
+	<title><h:outputText value="#{msgs['sistema.titulo']}" /></title>
+</h:head>
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="loginPage">
+			<p:growl id="growl" life="2500" />
+			<p:ajaxStatus onstart="statusDialog.show();"
+				onsuccess="statusDialog.hide();" />
+
+			<p:dialog modal="true" widgetVar="statusDialog" header="Carregando"
+				draggable="false" closable="false">
+				<p:graphicImage value="/resources/imagens/ajax-loader-bar.gif"></p:graphicImage>
+			</p:dialog>
+			<p:panel id="panel" header="#{msgs['login.label.titulo']}"
+				style="margin:auto;width: 50%">
+				<h:panelGrid columns="2" style="margin: 20px">
+					<h:outputText value="#{msgs['login.label']}" />
+					<h:inputText value="#{loginController.usuario.email}"
+						style="width:300px" />
+					<h:outputText value="#{msgs['login.label.passw']}" />
+					<h:inputSecret id="password"
+						value="#{loginController.usuario.senha}" style="width:300px" />
+				</h:panelGrid>
+				<p:commandButton action="#{loginController.efetuaLogin}"
+					update="growl" value="#{msgs['login.acao']}" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

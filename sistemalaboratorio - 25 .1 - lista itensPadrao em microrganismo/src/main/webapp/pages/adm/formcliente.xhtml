@@ -1,0 +1,450 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="cadCliente">
+
+				<h:inputHidden value="#{clienteController.cliente.idCliente}" />
+
+				<p:fieldset id="orientacoes1" toggleable="true" toggleSpeed="500"
+					style="width:96%"
+					legend="#{msgs['padrao.secao.orientacoes.label']}">
+					<h:panelGrid>
+						<h:outputText
+							value="1. #{msgs['cliente.form.label.orientacoes.Dados1']}" />
+						<h:outputText
+							value="2. #{msgs['padrao.form.label.orientacoes.Dados2']}" />
+						<h:outputText
+							value="3. #{msgs['padrao.form.label.orientacoes.Dados3']}" />
+					</h:panelGrid>
+				</p:fieldset>
+
+				<BR />
+
+				<p:fieldset id="dadosBasicos"
+					legend="#{msgs['padrao.secao.dadosbasicos.label']}"
+					style="width:96%">
+
+					<p:messages id="messages" showSummary="true" showDetail="false" autoUpdate="true" closable="true" />
+					<h:panelGrid id="panelGrid1" columnClasses="formColumn1,formColumn2,formColumn3" columns="3">
+
+						<p:column>
+							<h:outputLabel for="name"
+								value="#{msgs['cliente.form.label.Nome']}#{msgs['padrao.label.doispontos']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="name" value="#{clienteController.cliente.nome}"
+								required="true"
+								disabled="#{SessaoDoUsuario.visualizar}"
+								requiredMessage="#{msgs['padrao.label.nome.obrigatorio']}"
+								style="width:300px">
+								<f:validateLength minimum="4" />
+								<p:ajax event="blur" update="messages" />
+							</p:inputText>
+						</p:column>
+						<p:column style="vertical-align:middle;">
+							<p:selectBooleanCheckbox id="ativo" rendered="false"
+								value="#{clienteController.cliente.ativo}"
+								disabled="#{SessaoDoUsuario.visualizar}"
+								style="margin-left:20px;">
+							</p:selectBooleanCheckbox>
+							<h:outputLabel value="#{msgs['padrao.label.ativo']}"
+								rendered="false" />
+						</p:column>
+
+						<p:column>
+							<h:outputLabel
+								value="#{msgs['clienteController.cliente.alias']}#{msgs['padrao.label.doispontos']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="alias"
+								value="#{clienteController.cliente.alias}" size="20"
+								required="true"
+								disabled="#{SessaoDoUsuario.visualizar}"
+								requiredMessage="#{msgs['clienteController.cliente.alias.obrigatorio']}"
+								style="width:300px">
+								<f:validateLength minimum="4" />
+								<p:ajax event="blur" update="messages" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+						</p:column>
+
+						<p:column>
+							<h:outputLabel id="lbTipoPessoa"
+								value="#{msgs['cliente.form.label.tipopessoa']}#{msgs['padrao.label.doispontos']}"
+								for="pessoa" />
+						</p:column>
+
+						<p:column>
+							<h:selectOneRadio id="pessoa"
+							disabled="#{SessaoDoUsuario.visualizar}"
+								value="#{clienteController.cliente.tipopessoa}" required="true"
+								requiredMessage="#{msgs['cadastroCliente.tipoPessoa.required']}">
+								<f:selectItem
+									itemLabel="#{msgs['padrao.label.tipo.pessoa.juridica']}"
+									itemValue="0" />
+								<f:selectItem
+									itemLabel="#{msgs['padrao.label.tipo.pessoa.fisica']}"
+									itemValue="1" />
+								<p:ajax event="change" listener="#{clienteController.tipoPessoaChange}" update="lbCnpj, fldCnpj, lbInscricao, fldInscricao, tipoinscricao" render="fldInscricao" />
+							</h:selectOneRadio>
+						</p:column>
+
+						<p:column>
+						</p:column>
+
+
+						<p:column>
+							<h:outputLabel id="lbCnpj"
+								value="#{clienteController.cliente.tipopessoa == '1'? 'CPF' : 'CNPJ' }#{msgs['padrao.label.doispontos']}"
+								for="fldCnpj" />
+						</p:column>
+						<p:column>
+							<p:inputMask id="fldCnpj"
+							disabled="#{SessaoDoUsuario.visualizar}"
+								mask="#{clienteController.cliente.tipopessoa == '1'? '999.999.999-99' : '99.999.999/9999-99'}"
+								value="#{clienteController.cliente.cpfcnpj}"
+								converter="CnpjCpfMaskConverter"
+								requiredMessage="#{msgs['cadastroCliente.cnpjOrCpf.required']}"
+								maxlength="14" required="true" style="width:300px">
+								<p:ajax event="blur" update="messages" />
+							</p:inputMask>
+						</p:column>
+						<p:column>
+						</p:column>
+
+
+						<p:column>
+							<h:outputLabel id="lbTipoInscricao"
+								value="#{msgs['cliente.form.label.tipoinscricao']}#{msgs['padrao.label.doispontos']}"
+								for="tipoinscricao" />
+						</p:column>
+						<p:column>
+							<h:selectOneRadio id="tipoinscricao"
+							disabled="#{SessaoDoUsuario.visualizar}"
+								value="#{clienteController.cliente.tipoinscricao}" required="true"
+								requiredMessage="#{msgs['cadastroCliente.tipoInscricao.required']}">
+								<f:selectItem
+									itemLabel="#{msgs['padrao.label.tipo.inscricao.municipal']}"
+									itemValue="0" />
+								<f:selectItem
+									itemLabel="#{msgs['padrao.label.tipo.inscricao.estadual']}"
+									itemValue="1" />
+								<f:selectItem
+									itemLabel="#{msgs['padrao.label.tipo.inscricao.isento']}"
+									itemValue="2" />
+								<p:ajax event="change" update="lbInscricao, fldInscricao" render="fldInscricao" />
+							</h:selectOneRadio>
+						</p:column>
+						<p:column>
+						</p:column>
+
+						<p:column id="colInscricao1">
+							<h:outputLabel id="lbInscricao"
+								value="#{clienteController.cliente.tipoinscricao == '0'? 'Inscrição Municipal' : clienteController.cliente.tipoinscricao == '1'? 'Inscrição Estadual' : 'Inscrição'}#{msgs['padrao.label.doispontos']}"
+								for="fldInscricao" />
+						</p:column>
+						<p:column id="colInscricao2">
+							<p:inputMask id="fldInscricao"
+								disabled="#{SessaoDoUsuario.visualizar or clienteController.cliente.tipoinscricao=='2'}"
+								value="#{clienteController.cliente.inscricao}"
+								requiredMessage="#{msgs['cadastroCliente.inscricao.required']}"
+								maxlength="14" required="true" style="width:300px">
+								<p:ajax event="blur" update="messages" />
+							</p:inputMask>
+						</p:column>
+						<p:column id="colInscricao3">
+						</p:column>
+
+
+						<p:column>
+							<h:outputLabel
+								value="#{msgs['cadastroCliente.label.email']}#{msgs['padrao.label.doispontos']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="email"
+							disabled="#{SessaoDoUsuario.visualizar}"
+								value="#{clienteController.cliente.email}" required="true"
+								requiredMessage="#{msgs['cadastroCliente.email.required']}"
+								validatorMessage="#{msgs['cadastroCliente.email.requiredValidator']}"
+								style="width:300px">
+								<f:validateRegex
+									pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+								<f:validateLength minimum="5" />
+								<p:ajax event="blur" update="messages" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+						</p:column>
+						
+						<p:column>
+							<h:outputLabel
+								value="#{msgs['cadastroCliente.label.telefone']}#{msgs['padrao.label.doispontos']}" />
+						</p:column>
+						<p:column>
+							<p:inputMask id="dddTelefone" maxlength="2" mask="99"
+								disabled="#{SessaoDoUsuario.visualizar}" 
+								value="#{clienteController.cliente.dddtelefone}" size="2"
+								style="width:23px;"
+
+										 required="true"
+										 requiredMessage="#{msgs['cadastroCliente.ddd.obrigatorio']}"
+
+									>
+								<p:ajax event="blur" update="messages" />
+								<f:validateLength minimum="2" maximum="2" />
+							</p:inputMask>
+							<p:spacer width="10" />
+							<p:inputMask id="telefone" maxlength="10"
+								disabled="#{SessaoDoUsuario.visualizar}"
+								value="#{clienteController.cliente.telefone}"
+								mask="?99999999"
+								validatorMessage="#{msgs['cadastroCliente.telefone.requiredValidator']}"
+								size="10"
+
+										 required="true"
+										 requiredMessage="#{msgs['cadastroCliente.telefone.obrigatorio']}"
+
+									>
+								<p:ajax event="blur" update="messages" />
+								<f:validateLength minimum="7" maximum="9" />
+							</p:inputMask>
+						</p:column>
+						<p:column>
+						</p:column>
+
+						<p:column style="border-bottom-style: solid; border-bottom: thin solid green; height: 22px;">
+							<h:outputLabel
+								value="#{msgs['cadastroCliente.label.endereco']}" />
+						</p:column>
+						<p:column style="border-bottom-style: solid; border-bottom: thin solid green; height: 22px;">
+						</p:column>
+						<p:column style="border-bottom-style: solid; border-bottom: thin solid green; height: 22px;">
+						</p:column>
+
+						<p:column>
+							<h:outputLabel
+								value="#{msgs['cadastroCliente.label.endereco.logradouro']}#{msgs['padrao.label.doispontos']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="end_logradouro"
+							disabled="#{SessaoDoUsuario.visualizar}"
+								value="#{clienteController.cliente.end_logradouro}" required="true"
+								requiredMessage="#{msgs['cadastroCliente.endereco.logradouro.required']}"
+								style="width:300px">
+								<f:validateLength minimum="5" />
+								<p:ajax event="blur" update="messages" />
+							</p:inputText>
+							<p:watermark for="end_logradouro" value="Av, rua, estrada, praça, ..." id="watermark" />
+						</p:column>
+						<p:column>
+						</p:column>
+						
+						<p:column>
+							<h:outputLabel
+								value="#{msgs['cadastroCliente.label.endereco.numero']}#{msgs['padrao.label.doispontos']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="end_numero"
+							disabled="#{SessaoDoUsuario.visualizar}"
+								value="#{clienteController.cliente.end_numero}" required="true"
+								requiredMessage="#{msgs['cadastroCliente.endereco.numero.required']}"
+								style="width:50px">
+								<f:validateLength minimum="1"  maximum="7"/>
+								<p:ajax event="blur" update="messages" />
+							</p:inputText>
+							<p:spacer width="8" />
+							<h:outputLabel
+								value="#{msgs['cadastroCliente.label.endereco.complemento']}#{msgs['padrao.label.doispontos']}" />
+							<p:spacer width="5" />
+							<p:inputText id="end_complemento"
+								disabled="#{SessaoDoUsuario.visualizar}"
+								value="#{clienteController.cliente.end_complemento}" required="false"
+								style="width:120px">
+							</p:inputText>
+						</p:column>
+						<p:column>
+						</p:column>
+
+						<p:column>
+							<h:outputLabel
+								value="#{msgs['cadastroCliente.label.endereco.bairro']}#{msgs['padrao.label.doispontos']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="end_bairro"
+							disabled="#{SessaoDoUsuario.visualizar}"
+								value="#{clienteController.cliente.end_bairro}" required="true"
+								requiredMessage="#{msgs['cadastroCliente.endereco.bairro.required']}"
+								style="width:300px">
+								<f:validateLength minimum="5" />
+								<p:ajax event="blur" update="messages" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+						</p:column>
+
+
+						<p:column>
+							<h:outputLabel
+								value="#{msgs['cadastroCliente.label.endereco.cidade']}#{msgs['padrao.label.doispontos']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="end_cidade"
+							disabled="#{SessaoDoUsuario.visualizar}"
+								value="#{clienteController.cliente.end_cidade}" required="true"
+								requiredMessage="#{msgs['cadastroCliente.endereco.cidade.required']}"
+								style="width:165px">
+								<f:validateLength minimum="1" />
+								<p:ajax event="blur" update="messages" />
+							</p:inputText>
+							<p:spacer width="8" />
+							<h:outputLabel
+								value="#{msgs['cadastroCliente.label.endereco.estado']}#{msgs['padrao.label.doispontos']}" />
+							<p:spacer width="5" />
+							
+							<h:selectOneMenu id="end_estado"
+							disabled="#{SessaoDoUsuario.visualizar}"
+							value="#{clienteController.cliente.end_estado}" required="true"
+							requiredMessage="#{msgs['cadastroCliente.endereco.estado.required']}"
+								style="width:55px">
+    							<f:selectItems value="#{clienteController.estadosList}" />
+							</h:selectOneMenu>
+						</p:column>
+						<p:column>
+						</p:column>
+
+						<p:column>
+							<h:outputLabel
+								value="#{msgs['cadastroCliente.label.endereco.cep']}#{msgs['padrao.label.doispontos']}" />
+						</p:column>
+						<p:column>
+							<p:inputMask id="end_cep" maxlength="9" required="true"
+								disabled="#{SessaoDoUsuario.visualizar}"
+								value="#{clienteController.cliente.end_cep}"
+								mask="99999-999"
+								requiredMessage="#{msgs['cadastroCliente.endereco.cep.required']}"
+								style="width:70px">
+								<p:ajax event="blur" update="messages" />
+							</p:inputMask>
+						</p:column>
+						<p:column>
+						</p:column>
+
+					</h:panelGrid>
+
+					<BR />
+
+					<p:fieldset id="contatoPrincipal1" toggleable="true"
+						toggleSpeed="500" style="width:96%"
+						legend="#{msgs['clienteController.cliente.contatoprincipal']}"
+						rendered="#{SessaoDoUsuario.visualizar}">
+						<h:panelGrid
+							columnClasses="formColumn1Usuario,formColumn2,formColumn3,formColumn4"
+							columns="4">
+
+							<p:column>
+								<h:outputLabel for="nameCP"
+									value="#{msgs['padrao.label.nome']}#{msgs['padrao.label.doispontos']}" 
+									rendered="#{clienteController.existeContatoPrincipal()}"/>
+							
+							<p:panel
+								rendered="#{!clienteController.existeContatoPrincipal()}"
+								style="border:none; width:300px">
+								<h:outputLabel for="nameCP"
+									value="#{msgs['clienteController.cliente.contatoprincipalnaodef']}"
+									rendered="#{!clienteController.existeContatoPrincipal()}"
+									style="width:300px" />
+							</p:panel>
+							</p:column>
+							<p:column>
+								<p:inputText id="nameCP"
+									value="#{clienteController.contatoPrincipal.nome}"
+									disabled="true" style="width:300px"  rendered="#{clienteController.existeContatoPrincipal()}">									
+								</p:inputText>
+							</p:column>
+
+							<p:column>
+								<h:outputLabel for="emailCP"
+									value="#{msgs['cadastroUsuario.label.email']}#{msgs['padrao.label.doispontos']}" 
+									 rendered="#{clienteController.existeContatoPrincipal()}"/>
+							</p:column>
+							<p:column>
+								<p:inputText id="emailCP"
+									value="#{clienteController.contatoPrincipal.email}"
+									disabled="true" style="width:300px"  rendered="#{clienteController.existeContatoPrincipal()}">
+								</p:inputText>
+							</p:column>
+
+							<p:column>
+								<h:outputLabel
+									value="#{msgs['cadastroUsuario.label.telefone.celular']}#{msgs['padrao.label.doispontos']}" 
+									 rendered="#{clienteController.existeContatoPrincipal()}"/>
+							</p:column>
+							<p:column>
+								<p:inputMask id="dddCelularCP" maxlength="2" mask="99"
+									value="#{clienteController.contatoPrincipal.dddTelCelular}"
+									size="2" disabled="true" rendered="#{clienteController.existeContatoPrincipal()}">
+								</p:inputMask>
+								<p:spacer width="10" />
+								<p:inputMask id="telefoneCelularCP" maxlength="10"
+									mask="99999-9999"
+									value="#{clienteController.contatoPrincipal.telCelular}"
+									size="10" disabled="true"  rendered="#{clienteController.existeContatoPrincipal()}">
+								</p:inputMask>
+							</p:column>
+
+							<p:column>
+								<h:outputLabel
+									value="#{msgs['cadastroUsuario.label.telefone.comercial']}#{msgs['padrao.label.doispontos']}" 
+									 rendered="#{clienteController.existeContatoPrincipal()}" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="dddComercialCP" maxlength="2" mask="99"
+									value="#{clienteController.contatoPrincipal.dddTelComercial}"
+									size="2" disabled="true"  rendered="#{clienteController.existeContatoPrincipal()}">
+								</p:inputMask>
+								<p:spacer width="10" />
+								<p:inputMask id="telefoneComercialCP" maxlength="10"
+									mask="9999-9999"
+									value="#{clienteController.contatoPrincipal.telComercial}"
+									size="10" disabled="true"  rendered="#{clienteController.existeContatoPrincipal()}">
+								</p:inputMask>
+								<p:spacer width="10" />
+								<p:inputText id="ramalTelefoneComercialCP"
+									value="#{clienteController.contatoPrincipal.ramalTelComercial}"
+									size="5" disabled="true"  rendered="#{clienteController.existeContatoPrincipal()}">
+								</p:inputText>
+							</p:column>
+
+						</h:panelGrid>
+					</p:fieldset>
+
+				</p:fieldset>
+
+				<BR />
+
+
+				<h:panelGrid columns="3" cellspacing="10">
+					<p:commandButton id="adicionar" value="#{msgs['padrao.botao.salvar']}" 
+						action="#{clienteController.salvar}" 
+						ajax="false" rendered="#{!SessaoDoUsuario.visualizar}"/>
+
+					<p:commandButton id="voltar" value="#{msgs['padrao.botao.voltar']}"
+						action="#{clienteController.voltar}" 
+						async="true" process="@this" />
+
+					<p:commandButton id="limpar" value="#{msgs['padrao.botao.limpar']}"
+						action="#{clienteController.limpar}" 
+						type="reset" ajax="false" rendered="#{!SessaoDoUsuario.visualizar}"/>
+				</h:panelGrid>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

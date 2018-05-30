@@ -1,0 +1,175 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="configuracao">
+				<h:inputHidden
+					value="#{configuracaoController.configuracao.idConfiguracao}" />
+
+				<p:fieldset id="orientacoes1" toggleable="true" toggleSpeed="500"
+					style="width:96%"
+					legend="#{msgs['padrao.secao.orientacoes.label']}">
+					<h:panelGrid>
+						<h:outputText
+							value="#{msgs['configuracao.label.orientacoes.Dados1']}" />
+						<h:outputText
+							value="#{msgs['configuracao.label.orientacoes.Dados2']}" />
+					</h:panelGrid>
+				</p:fieldset>
+				<BR />
+				<p:fieldset id="prazosenotificacoesid" toggleable="true"
+					toggleSpeed="500" style="width:96%"
+					legend="#{msgs['configuracao.label.tituloNotificacao']}">
+
+					<p:messages id="messages" autoUpdate="true" closable="true" />
+
+					<h:panelGrid cellpadding="10" columns="2">
+						<p:column>
+							<h:outputLabel for="analisealimentos"
+								value="#{msgs['configuracao.label.alimento.diasuteis']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="analisealimentosfld"
+								value="#{configuracaoController.configuracao.alimento}"
+								required="true"
+								requiredMessage="#{msgs['configuracao.label.alimento.obrigatorio']}"
+								style="width:20px">
+								<p:ajax event="blur" update="messages" />
+							</p:inputText>
+						</p:column>
+
+						<p:column>
+							<h:outputLabel for="manipulador"
+								value="#{msgs['configuracao.label.manipulador.diasuteis']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="manipuladorfld"
+								value="#{configuracaoController.configuracao.manipulador}"
+							required="true"
+								requiredMessage="#{msgs['configuracao.label.manipulador.obrigatorio']}"
+								style="width:20px">
+								<p:ajax event="blur" update="messages" />
+							</p:inputText>
+						</p:column>
+
+						<p:column>
+							<h:outputLabel for="superficie"
+								value="#{msgs['configuracao.label.superficie.diasuteis']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="superficiefld"
+								value="#{configuracaoController.configuracao.superficie}"
+								required="true"
+								requiredMessage="#{msgs['configuracao.label.superficie.obrigatorio']}"
+								style="width:20px">
+								<p:ajax event="blur" update="messages" />
+							</p:inputText>
+						</p:column>
+
+						<p:column>
+							<h:outputLabel for="agua"
+								value="#{msgs['configuracao.label.agua.diasuteis']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="aguafld"
+								value="#{configuracaoController.configuracao.agua}"
+								required="true"
+								requiredMessage="#{msgs['configuracao.label.agua.obrigatorio']}"
+								style="width:20px">
+								<p:ajax event="blur" update="messages" />
+							</p:inputText>
+						</p:column>
+
+						<p:column>
+							<h:outputLabel for="aguaMineral"
+								value="#{msgs['configuracao.label.aguamineral.diasuteis']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="aguaMineralfld"
+								value="#{configuracaoController.configuracao.aguaMineral}"
+								required="true"
+								requiredMessage="#{msgs['configuracao.label.aguamineral.obrigatorio']}"
+								style="width:20px">
+								<p:ajax event="blur" update="messages" />
+							</p:inputText>
+						</p:column>
+
+						<p:column>
+							<h:outputLabel for="ar"
+								value="#{msgs['configuracao.label.ar.diasuteis']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="arfld"
+								value="#{configuracaoController.configuracao.ar}"
+								required="true"
+								requiredMessage="#{msgs['configuracao.label.ar.obrigatorio']}"
+								style="width:20px">
+								<p:ajax event="blur" update="messages" />
+							</p:inputText>
+						</p:column>
+
+					</h:panelGrid>
+
+					<h:panelGrid cellpadding="10" columns="3">
+						<p:column>
+							<h:outputLabel for="encerramentodoprazodias"
+								value="#{msgs['configuracao.label.encerramentodoprazo.diasantesdotermino1']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="encerramentodoprazodiasfld"
+								value="#{configuracaoController.configuracao.encerramentodd}"
+								required="true"
+								requiredMessage="#{msgs['configuracao.label.encerramentodd.obrigatorio']}"
+								style="width:20px">
+								<p:ajax event="blur" update="messages" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+							<h:outputLabel for="encerramentodoprazodias2"
+								value="#{msgs['configuracao.label.encerramentodoprazo.diasantesdotermino2']}" />
+						</p:column>
+
+
+						<p:column>
+							<h:outputLabel for="encerramentohh"
+								value="#{msgs['configuracao.label.encerramentodoprazo.horas1']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="encerramentohhfld"
+								value="#{configuracaoController.configuracao.encerramentohh}"
+								required="true"
+								requiredMessage="#{msgs['configuracao.label.encerramentohh.obrigatorio']}"
+								style="width:20px">
+								<p:ajax event="blur" update="messages" />
+							</p:inputText>
+						</p:column>
+						<p:column>
+							<h:outputLabel for="encerramentohh2"
+								value="#{msgs['configuracao.label.encerramentodoprazo.horas2']}" />
+						</p:column>
+					</h:panelGrid>
+
+				</p:fieldset>
+				<p:spacer width="10" />
+
+				<h:panelGrid columns="2" cellpadding="10">
+
+					<p:commandButton id="salvar" value="#{msgs['padrao.botao.salvar']}"
+						action="#{configuracaoController.salvar}"
+						ajax="false" />
+
+					<p:commandButton id="voltar" value="#{msgs['padrao.botao.voltar']}"
+						action="#{configuracaoController.voltar}"
+						async="true" process="@this" />
+
+
+				</h:panelGrid>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,270 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="cadSolicitacao">
+			<h:inputHidden
+				value="#{solicitacaoController.solicitacao.idSolicitacao}" />
+
+			<p:fieldset id="orientacoes1" toggleable="true" toggleSpeed="500"
+				style="width:96%" legend="#{msgs['padrao.secao.orientacoes.label']}">
+				<h:panelGrid>
+					<h:outputText
+						value="#{msgs['solicitacao.form.label.orientacoes.dados1']}" />
+					<h:outputText
+						value="#{msgs['solicitacao.form.label.orientacoes.dados2']}" />
+					<h:outputText
+						value="#{msgs['solicitacao.form.label.orientacoes.dados3']}" />
+				</h:panelGrid>
+			</p:fieldset>
+
+			<br />
+
+			<p:fieldset id="dadosBasicos"
+				legend="#{msgs['padrao.secao.dadosbasicos.label']}"
+				style="width:96%">
+				<p:messages id="messages" autoUpdate="true" closable="true" />
+
+				<h:panelGrid columnClasses="formColumn1,formColumn2" columns="2">
+
+					<p:column>
+						<h:outputLabel for="numeroSolicitacao"
+							value="#{msgs['solicitacao.form.label.numsolicitacao']}#{msgs['padrao.label.doispontos']}" />
+					</p:column>
+					<p:column>
+						<h:outputText id="numeroSolicitacao"
+							value="#{solicitacaoController.solicitacao.strNumero}"
+							rendered="#{solicitacaoController.solicitacao.strNumero == ''?false:true}"
+							disabled="#{SessaoDoUsuario.visualizar}" style="width:200px">
+						</h:outputText>
+					</p:column>
+
+					<p:column>
+						<h:outputLabel for="cliente"
+							value="#{msgs['cadastroUsuario.label.empresa']}#{msgs['padrao.label.doispontos']}" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="cliente" converter="SimpleEntityConverter"
+							disabled="#{not SessaoDoUsuario.usuarioBioqualitas or SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							value="#{solicitacaoController.solicitacao.cliente}"
+							required="true"
+							requiredMessage="#{msgs['cadastroUsuario.empresa.obrigatorio']}"
+							style="width:300px">
+							<f:selectItems
+								value="#{solicitacaoController.comboCliente.listaSelecao}" />
+							<p:ajax event="blur" update="messages" />
+						</p:selectOneMenu>
+					</p:column>
+
+					<p:column>
+						<h:outputLabel for="dataSolicitacao"
+							value="#{msgs['solicitacao.form.label.datasolicitacao']}#{msgs['padrao.label.doispontos']}" />
+					</p:column>
+					<p:column>
+						<p:calendar id="dataSolicitacao" readonly="false" locale="pt_BR"
+							disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							value="#{solicitacaoController.solicitacao.dataSolicitacao}"
+							pattern="#{msgs['sistema.formato.data']}" showOn="button">
+						</p:calendar>
+					</p:column>
+
+					<p:column>
+						<h:outputLabel for="forma"
+							value="#{msgs['solicitacao.form.label.pagamento']}#{msgs['padrao.label.doispontos']}" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="forma" converter="SimpleEntityConverter"
+							disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							value="#{solicitacaoController.solicitacao.formaPagamento}"
+							style="width:300px">
+							<f:selectItems
+								value="#{solicitacaoController.formaPagamentoList}" />
+							<p:ajax event="blur" update="messages" />
+						</p:selectOneMenu>
+					</p:column>
+				</h:panelGrid>
+			</p:fieldset>
+			<br />
+			<p:fieldset id="fdAmostras" legend="Amostras" style="width:96%"
+				rendered="#{!SessaoDoUsuario.criar}">
+
+				<p:commandButton value="#{msgs['padrao.botao.cadastraramostra']}"
+					action="#{solicitacaoController.criarAmostra}"
+					icon="ui-icon ui-icon-document"
+					rendered="#{solicitacaoController.podeCadastrarAmostra}" />
+				<br />
+				<br />
+				<p:dataTable id="amostras" var="amostra"
+					value="#{solicitacaoController.amostraList}"
+					selection="#{solicitacaoController.amostrasSelecionadas}"
+					rowKey="#{amostra.idAmostra}" style="width: 100%"
+					emptyMessage="#{msgs['padrao.registro.nenhum.encontrado']}">
+
+					<p:column selectionMode="multiple"
+						rendered="#{SessaoDoUsuario.editar}"
+						style="width:16px;text-align:center" />
+
+					<p:column headerText="#{msgs['solicitacao.form.label.numamostra']}">
+						<h:outputText value="#{amostra.strNumero}" />
+					</p:column>
+
+					<p:column headerText="#{msgs['amostra.form.label.tipodeanalise']}">
+						<h:outputText value="#{amostra.tipoAnalise}"
+							converter="EnumConverter" />
+					</p:column>
+
+					<p:column headerText="#{msgs['solicitacao.form.label.prazo']}">
+						<h:outputText value="#{amostra.noPrazo}" />
+					</p:column>
+
+					<p:column headerText="#{msgs['padrao.botao.editar']}"
+						style="width:32px;text-align: center"
+						rendered="#{solicitacaoController.podeEditarAmostra}">
+						<p:commandButton action="#{solicitacaoController.editarAmostra}"
+							rendered="#{solicitacaoController.amostraValida(amostra)}"
+							icon="ui-icon-pencil">
+							<f:setPropertyActionListener value="#{amostra}"
+								target="#{solicitacaoController.amostraSelecionada}" />
+						</p:commandButton>
+					</p:column>
+
+					<p:column headerText="#{msgs['padrao.botao.analisar']}"
+						style="width:32px;text-align: center"
+						rendered="#{solicitacaoController.podeAnalisarAmostra}">
+						<p:commandButton action="#{solicitacaoController.analisarAmostra}"
+							rendered="#{solicitacaoController.amostraValida(amostra)}"
+							icon="ui-icon-pencil">
+							<f:setPropertyActionListener value="#{amostra}"
+								target="#{solicitacaoController.amostraSelecionada}" />
+						</p:commandButton>
+					</p:column>
+
+					<p:column headerText="Invalidar"
+						style="width:32px;text-align: center">
+						<p:commandButton
+							rendered="#{solicitacaoController.amostraValida(amostra)}"
+							action="#{solicitacaoController.preparaInvalidarAmostra}"
+							icon="ui-icon-cancel" oncomplete="cadDialog.show()">
+							<f:setPropertyActionListener value="#{amostra}"
+								target="#{solicitacaoController.amostraSelecionada}" />
+						</p:commandButton>
+
+						<p:commandButton
+							rendered="#{!solicitacaoController.amostraValida(amostra)}"
+							action="#{solicitacaoController.visualizarAmostra}"
+							icon="ui-icon-cancel">
+							<f:setPropertyActionListener value="#{amostra}"
+								target="#{solicitacaoController.amostraSelecionada}" />
+						</p:commandButton>
+					</p:column>
+
+					<f:facet name="footer">
+						<p:commandButton value="Deletar Amostras Selecionadas"
+							process="amostras"
+							action="#{solicitacaoController.deletarAmostras}"
+							update=":cadSolicitacao:amostras" icon="ui-icon ui-icon-trash"
+							onclick="if (!confirm('Confirma a exlusão das Amostras selecionadas ?')) return false;"
+							rendered="#{solicitacaoController.podeDeletarAmostra and not empty solicitacaoController.amostraList}" />
+					</f:facet>
+
+				</p:dataTable>
+			</p:fieldset>
+
+			<h:panelGrid columns="6" cellspacing="10">
+				<p:commandButton id="adicionar"
+					value="#{msgs['padrao.botao.salvar']}"
+					action="#{solicitacaoController.salvar}" ajax="false"
+					rendered="#{!SessaoDoUsuario.visualizar}" />
+
+				<p:commandButton id="voltar" value="#{msgs['padrao.botao.voltar']}"
+					action="#{solicitacaoController.voltar}" async="true"
+					process="@this" />
+
+				<p:commandButton id="enviaranalise"
+					value="#{msgs['solicitacao.botao.enviarparaanalise']}"
+					action="#{solicitacaoController.enviarParaAnalise}" ajax="false"
+					rendered="#{SessaoDoUsuario.editar and not empty solicitacaoController.amostraList}" />
+
+
+				<p:commandButton id="concluiranalise"
+					value="#{msgs['solicitacao.botao.concluiranalise']}"
+					action="#{solicitacaoController.concluirAnalise}" ajax="false"
+					rendered="#{SessaoDoUsuario.analisar}" />
+
+				<p:commandButton id="liberar"
+					value="#{msgs['solicitacao.botao.liberarparacliente']}"
+					action="#{solicitacaoController.liberarParaCliente}" ajax="false"
+					rendered="#{solicitacaoController.podeLiberarCliente}" />
+
+				<p:commandButton id="imprimir" value="Imprimir"
+					action="#{solicitacaoController.imprimir}" ajax="true"
+					rendered="#{solicitacaoController.podeImprimir}" />
+			</h:panelGrid>
+		</h:form>
+		<p:separator style="margin-top: 20px;" />
+		<p:dialog id="idDialogInvalidar" widgetVar="cadDialog"
+			header="#{msgs['amostra.dialog.invalidar.titulo']}" closable="true"
+			resizable="false" modal="true" hideEffect="slide" showEffect="slide"
+			draggable="false">
+
+			<h:form id="formInvalidarId">
+				<h:panelGrid id="display" cellpadding="4" style="margin:0 auto;">
+					<p:row>
+						<p:column>
+							<p:messages />
+						</p:column>
+					</p:row>
+					<p:separator />
+					<p:row>
+						<p:column>
+							<p:inputTextarea id="justificativa" rows="5" cols="30"
+								maxlength="300" autoResize="true"
+								value="#{solicitacaoController.justificativa}"
+								requiredMessage="#{msgs['amostra.dialog.justificativa.required']}"
+								required="true" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="2">
+							<p:commandButton id="btsalvar"
+								value="#{msgs['padrao.botao.salvar']}" update="display"
+								action="#{solicitacaoController.invalidarAmostra}"
+								oncomplete="handleInvalidarRequest(xhr, status, args)">
+								<f:setPropertyActionListener value="#{amostra}"
+									target="#{solicitacaoController.amostraSelecionada}" />
+							</p:commandButton>
+							<p:commandButton value="Voltar" update="display" process="@this"
+								oncomplete="cadDialog.hide()" />
+						</p:column>
+					</p:row>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+		<script type="text/javascript">
+			function handleInvalidarRequest(xhr, status, args) {
+				if (args.validationFailed || !args.sucesso) {
+					jQuery('#idDialogInvalidar').effect("shake", {
+						times : 3
+					}, 100);
+				} else {
+					cadDialog.hide();
+					location.href = getRootPath()
+							+ 'analises/listaanalises.jsf';
+				}
+			}
+			function getRootPath() {
+				var strHref = window.location.href;
+				var strHref = strHref.substr(0,
+						strHref.lastIndexOf("pages/") + 6);
+				return strHref;
+			}
+	
+		</script>
+	</ui:define>
+</ui:composition>
+</html>

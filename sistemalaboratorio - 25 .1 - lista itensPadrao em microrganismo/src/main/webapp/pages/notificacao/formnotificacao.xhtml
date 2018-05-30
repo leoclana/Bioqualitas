@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="cadNotificacao">
+
+				<h:inputHidden
+					value="#{notificacaoController.notificacao.idNotificacao}" />
+
+				<p:fieldset id="orientacoes1" toggleable="true" toggleSpeed="500"
+					style="width:96%"
+					legend="#{msgs['padrao.secao.orientacoes.label']}">
+					<h:panelGrid>
+						<h:outputText
+							value="#{msgs['notificacao.form.label.orientacoes.dado1']}" />
+					</h:panelGrid>
+				</p:fieldset>
+				<BR />
+				<p:fieldset id="dadosBasicos"
+					legend="#{msgs['notificacao.form.label.tituloNotificacao']}"
+					style="width:96%">
+					<p:messages id="messages" autoUpdate="true" closable="true" />
+
+					<h:panelGrid columnClasses="formColumn1,formColumn2" columns="2">
+						<p:column>
+							<h:outputText id="tituloNotificacao"
+								value="#{notificacaoController.notificacao.descricao}"
+								 style="width:200px">
+							</h:outputText>
+						</p:column>
+					</h:panelGrid>
+				</p:fieldset>
+				<BR />
+	
+
+				<h:panelGrid  cellspacing="10">
+						<p:commandButton id="voltar" value="#{msgs['padrao.botao.voltar']}"
+						action="#{notificacaoController.voltar}"
+						async="true" process="@this" />
+				</h:panelGrid>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="sistemalaboratorio:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="BioQualitas.war">
+      <element id="artifact" artifact-name="sistemalaboratorio:war exploded" />
+    </root>
+  </artifact>
+</component>

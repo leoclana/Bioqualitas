@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:loadBundle basename="mensagens" var="msgs" />
+
+<h:head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8;" />
+	<title><h:outputText value="#{msgs['titulo.sistema']}" /></title>
+	<h:outputStylesheet library="css" name="style.css" />
+	<h:outputScript name="calendario_pt_BR.js" library="js" />
+	<h:outputScript name="jsf.js" library="javax.faces" target="head" />
+</h:head>
+<h:body>
+	<div id="cabecalho2">
+		<h:graphicImage library="imagens" name="logo.jpg" id="logoCompany" />
+	</div>
+	<div id="conteudo">
+		<h:form id="menuBar">
+			<p:menubar styleClass="menunav"
+				rendered="#{SessaoDoUsuario.usuarioLogado}">
+
+				<p:menuitem value="#{msgs['template.menu.adm.notificacoes']}"
+					url="/pages/notificacao/listanotificacoes.jsf" />
+
+				<p:submenu label="#{msgs['template.menu.adm.analises']}">
+
+					<p:menuitem value="#{msgs['template.menu.adm.novasolicitacao']}"
+						icon="ui-icon-document" ajax="false"
+						action="#{solicitacaoController.criar}"
+						rendered="#{SessaoDoUsuario.coletador or SessaoDoUsuario.administrador}" />
+					<p:menuitem value="#{msgs['template.menu.adm.consultaranalises']}"
+						icon="ui-icon-search" ajax="false"
+						action="#{solicitacaoController.listar}" />
+				</p:submenu>
+
+				<p:submenu label="#{msgs['template.menu.adm.administracao']}"
+					rendered="#{SessaoDoUsuario.administrador or SessaoDoUsuario.coletador or SessaoDoUsuario.usuario.contatoPrincipal}">
+					<p:menuitem value="#{msgs['template.menu.adm.indicadores']}"
+						rendered="#{SessaoDoUsuario.administrador}"
+						url="/pages/adm/indicadores.jsf" icon="ui-icon-search" />
+					<p:separator />
+
+
+					<!--<p:menuitem value="#{msgs['template.menu.adm.clientes']}"-->
+						<!--rendered="#{SessaoDoUsuario.administrador or SessaoDoUsuario.coletador}"-->
+						<!--url="/pages/adm/listaclientes.jsf" icon="ui-icon-search" />-->
+
+					<p:menuitem value="#{msgs['template.menu.adm.clientes']}"
+								rendered="#{SessaoDoUsuario.administrador or SessaoDoUsuario.coletador}"
+								action="#{clienteController.inicializar}" icon="ui-icon-search" />
+
+					<p:menuitem value="#{msgs['template.menu.adm.usuarios']}"
+						rendered="#{SessaoDoUsuario.administrador or SessaoDoUsuario.usuario.contatoPrincipal}"
+						url="/pages/adm/listausuarios.jsf" icon="ui-icon-search" />
+
+
+
+
+					<p:menuitem value="#{msgs['template.menu.adm.microrganismos']}"
+						rendered="#{SessaoDoUsuario.administrador}"
+						url="/pages/adm/listaMicrorganismos.jsf" icon="ui-icon-search" />
+					<p:separator />
+					<p:menuitem value="#{msgs['template.menu.adm.configuracoes']}"
+						rendered="#{SessaoDoUsuario.administrador}"
+						url="/pages/adm/configuracoes.jsf" icon="ui-icon-wrench" />
+					<p:menuitem value="Logs" url="/pages/adm/listalogs.jsf"
+						rendered="#{SessaoDoUsuario.administrador}" icon="ui-icon-search" />
+				</p:submenu>
+
+				<p:submenu label="Técnico" rendered="false">
+					<p:menuitem value="Perfis" url="/pages/tec/listaperfis.jsf"
+						icon="ui-icon-search" />
+					<p:menuitem value="Funcoes" url="/pages/tec/listafuncoes.jsf"
+						icon="ui-icon-search" />
+					<p:menuitem value="Motivos de Analise"
+						url="/pages/tec/listamotivos.jsf" icon="ui-icon-search" />
+					<p:menuitem value="Formas de Pagamentos"
+						url="/pages/tec/listaformas.jsf" icon="ui-icon-search" />
+				</p:submenu>
+
+				<p:menuitem disabled="true" style="width:350px;" />
+
+				<p:submenu label="#{SessaoDoUsuario.usuario.nome}">
+					<p:menuitem value="#{msgs['template.menu.adm.manual']}"
+						url="/pages/manual.jsf" icon="ui-icon-document" />
+					<p:separator />
+					<p:menuitem value="Dados cadastrais"
+						action="#{userController.alterardadoscadastrais}" ajax="false"
+						icon="ui-icon-document">
+					</p:menuitem>
+					<p:menuitem value="Alterar senha"
+						action="#{userController.alterarSenha}" ajax="false"
+						icon="ui-icon-document">
+					</p:menuitem>
+				</p:submenu>
+
+				<p:menuitem value="#{msgs['template.menu.adm.sair']}"
+					action="#{loginController.logOut}" ajax="false"
+					icon="ui-icon-close" />
+
+			</p:menubar>
+		</h:form>
+		<ui:insert name="corpo" />
+	</div>
+	<div id="rodape">#{msgs['sistema.label.titulo']}</div>
+</h:body>
+</html>

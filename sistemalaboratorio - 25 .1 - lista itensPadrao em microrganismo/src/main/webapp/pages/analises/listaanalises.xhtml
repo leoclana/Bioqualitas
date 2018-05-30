@@ -1,0 +1,142 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="consultaSolicitacao">
+
+			<p:fieldset id="orientacoes1" toggleable="true" toggleSpeed="500"
+				legend="#{msgs['padrao.secao.orientacoes.label']}">
+				<h:panelGrid>
+					<h:outputText
+						value="#{msgs['solicitacao.form.label.consulta.orientacoes.dados1']}" />
+					<h:outputText
+						value="#{msgs['solicitacao.form.label.consulta.orientacoes.dados2']}" />
+					<p:commandButton action="#{solicitacaoController.criar}"
+						type="submit" icon="ui-icon ui-icon-document" ajax="false"
+						rendered="#{SessaoDoUsuario.podeCadastrarSolicitacao}"
+						value="#{msgs['solicitacao.botao.novo']}" />
+				</h:panelGrid>
+			</p:fieldset>
+			<br />
+			<p:fieldset legend="#{msgs['solicitacao.consulta.cabecalho']}">
+				<p:messages />
+				<p:dataTable id="solicitacoes"
+					widgetVar="dataTableSolicitacoes"
+					value="#{solicitacaoController.solicitacaoList}" var="solicitacao"
+					paginator="true"
+					rows="10" style="width: 100%"
+					emptyMessage="#{msgs['padrao.registro.nenhum.encontrado']}"
+					filteredValue="#{solicitacaoController.solicitacaoListFiltered}">
+
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="#{msgs['padrao.label.filtrar']}#{msgs['padrao.label.doispontos']}" />
+							<p:inputText id="globalFilter"
+										 onkeyup="PF('dataTableSolicitacoes').filter()"
+										 style="width:150px;margin-left:10px"
+										 placeholder="Enter keyword"/>
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column filterBy="#{solicitacao.strNumero}"
+						headerText="#{msgs['solicitacao.form.label.numsolicitacao']}"
+						filterMatchMode="contains"
+						filterStyle="display:none; visibility:hidden;">
+						<h:commandLink value="#{solicitacao.strNumero}"
+							action="#{solicitacaoController.visualizar}">
+							<f:setPropertyActionListener
+								target="#{solicitacaoController.solicitacao}"
+								value="#{solicitacao}" />
+						</h:commandLink>
+					</p:column>
+
+					<p:column filterBy="#{solicitacao.cliente}"
+						headerText="#{msgs['cadastroUsuario.label.empresa']}"
+						filterMatchMode="contains"
+						filterStyle="display:none; visibility:hidden;">
+						<h:outputText value="#{solicitacao.cliente}" />
+					</p:column>
+
+					<p:column filterBy="#{solicitacao.dataSolicitacaoFormat}"
+							  headerText="#{msgs['solicitacao.form.label.data']}"
+							  filterMatchMode="contains"
+							  filterStyle="display:none; visibility:hidden;" >
+						<h:outputText value="#{solicitacao.dataSolicitacaoFormat}" />
+					</p:column>
+
+
+
+					<p:column rendered="false"
+							filterBy="#{solicitacao.dataSolicitacao}"
+							  headerText="#{msgs['solicitacao.form.label.prazo']}"
+							  filterMatchMode="contains"
+							  filterStyle="display:none; visibility:hidden;">
+						<h:outputText value="#{solicitacao.prazo}">
+							<f:convertDateTime type="time"
+											   pattern="#{msgs['sistema.formato.data']}"
+											   timeZone="#{msgs['sistema.formato.timezone']}" />
+						</h:outputText>
+					</p:column>
+					<p:column filterBy="#{solicitacao.dataPrazoFormat}"
+							  headerText="#{msgs['solicitacao.form.label.prazo']}"
+							  filterMatchMode="contains"
+							  filterStyle="display:none; visibility:hidden;" >
+						<h:outputText value="#{solicitacao.dataPrazoFormat}" />
+					</p:column>
+
+
+					<p:column filterBy="#{solicitacao.status}"
+						headerText="#{msgs['cliente.consulta.filtro.status.label']}"
+						filterMatchMode="contains"
+						filterStyle="display:none; visibility:hidden;">
+						<h:outputText value="#{solicitacao.status}">
+							<f:converter converterId="EnumConverter" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="#{msgs['padrao.botao.editar']}"
+						      rendered="#{SessaoDoUsuario.podeEditarSolicitacao}">
+						<p:commandButton action="#{solicitacaoController.editar}"
+									 	 icon="ui-icon ui-icon-pencil"
+										 rendered="#{solicitacaoController.podeEditarSolicitacao(solicitacao)}">
+							<f:setPropertyActionListener
+								target="#{solicitacaoController.solicitacao}"
+								value="#{solicitacao}" />
+						</p:commandButton>
+					</p:column>
+
+					<p:column headerText="#{msgs['padrao.botao.analisar']}"
+						rendered="#{SessaoDoUsuario.podeAnalisarSolicitacao}">
+						<p:commandButton action="#{solicitacaoController.analisar}"
+							icon="ui-icon-pencil"
+							rendered="#{solicitacaoController.podeAnalisarSolicitacao(solicitacao)}">
+							<f:setPropertyActionListener
+								target="#{solicitacaoController.solicitacao}"
+								value="#{solicitacao}" />
+						</p:commandButton>
+					</p:column>
+
+					<p:column headerText="#{msgs['padrao.botao.deletar']}"
+						rendered="#{SessaoDoUsuario.podeEditarSolicitacao}">
+						<p:commandButton action="#{solicitacaoController.deletar}"
+							type="submit" icon="ui-icon ui-icon-trash"
+							onclick="if (!confirm('Confirma a exlusão da solicitação #{solicitacao.idSolicitacao} ?')) return false;"
+							ajax="false"
+							rendered="#{solicitacaoController.podeDeletarSolicitacao(solicitacao)}">
+							<f:setPropertyActionListener
+								target="#{solicitacaoController.solicitacao}"
+								value="#{solicitacao}" />
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+			</p:fieldset>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

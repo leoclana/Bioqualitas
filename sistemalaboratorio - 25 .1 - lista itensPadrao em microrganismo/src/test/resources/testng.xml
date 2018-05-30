@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+  <test name="Testes" verbose="1">
+
+        <parameter name="selen-svr-addr" value="localhost"/>
+        <parameter name="aut-addr" value="http://localhost:8080/CPPD/"/>
+        <parameter name="brwsr-path" value="*firefox"/>
+
+        <!--
+        <packages>
+            <package name="carga" />
+        </packages>
+        -->
+
+        <classes>
+            <class name="carga.usuario.AddUserTest" />
+             <class name=" com.util.mail.EnvioEmailTest"/>
+             <class name=" com.util.CriptografaSenhas"/>
+             <class name=" com.configuracao.AddConfiguracao"/>
+             <class name=" com.notificacao.AddNotificacao"/>  
+                <class name=" com.solicitacao.AddSolicitacao"/>  
+                 <class name="com.amostra.AddAmostra"/>
+        </classes>
+
+        <!--
+        <groups>
+            <run>
+                <exclude name="" />
+            </run>
+        </groups>
+        -->
+    </test>
+</suite>
+
+<!-- TUTORIAL MUITO BOM DE TESTNG:
+http://www.ibm.com/developerworks/java/library/j-testng/
+
+http://testng.org/doc/documentation-main.html
+
+http://testng.org/dtd/
+
+http://www.ibm.com/developerworks/java/library/j-testng/
+-->

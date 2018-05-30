@@ -1,0 +1,243 @@
+
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="cadUsuario">
+
+			<h:inputHidden value="#{userController.usuario.idUsuario}" />
+
+			<p:fieldset id="orientacoes1" toggleable="true" toggleSpeed="500"
+				style="width:96%" legend="#{msgs['padrao.secao.orientacoes.label']}">
+
+				<h:panelGrid>
+					<h:outputText
+						value="1. #{msgs['usuario.form.label.orientacoes.Dados1']}" />
+					<h:outputText
+						value="2. #{msgs['usuario.form.label.orientacoes.Dados2']}" />
+					<h:outputText
+						value="3. #{msgs['padrao.form.label.orientacoes.Dados2']}" />
+					<h:outputText
+						value="4. #{msgs['padrao.form.label.orientacoes.Dados3']}" />
+				</h:panelGrid>
+			</p:fieldset>
+
+			<BR />
+
+			<p:fieldset id="dadosBasicos" legend="Dados Básicos"
+				style="width:96%">
+
+				<p:messages id="messages" showSummary="true" showDetail="false"
+					autoUpdate="true" closable="true" />
+
+				<h:panelGrid id="panelMain"
+					columnClasses="formColumn1Usuario,formColumn2,formColumn3,formColumn4"
+					columns="4">
+					<p:column>
+						<h:outputLabel for="cliente"
+							value="#{msgs['cadastroUsuario.label.empresa']}#{msgs['padrao.label.doispontos']}" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu id="cliente" converter="SimpleEntityConverter"
+							disabled="#{SessaoDoUsuario.alterarDadosCadastrais  or  SessaoDoUsuario.visualizar }"
+							value="#{userController.usuario.cliente}" required="true"
+							requiredMessage="#{msgs['cadastroUsuario.empresa.obrigatorio']}"
+							style="width:300px">
+							<f:selectItems
+								value="#{userController.comboCliente.listaSelecao}" />
+							<p:ajax event="blur" update="messages" />
+							<p:ajax event="change"
+								listener="#{userController.trataPerfil}"
+								update="perfis" />
+						</p:selectOneMenu>
+					</p:column>
+
+
+
+
+					<p:column colspan="2" style="vertical-align:middle;">
+						<p:selectBooleanCheckbox id="ativo"
+							disabled="#{SessaoDoUsuario.alterarDadosCadastrais  or  SessaoDoUsuario.visualizar}"
+							value="#{userController.usuario.contatoPrincipal}">
+						</p:selectBooleanCheckbox>
+						<h:outputLabel for="ativo"
+							value="#{msgs['cadastroUsuario.label.contatoprincipal']}"
+							style="vertical-align:super;" />
+					</p:column>
+
+
+					<p:column>
+					</p:column>
+
+					<p:column>
+						<h:outputLabel for="name"
+							value="#{msgs['padrao.label.nome']}#{msgs['padrao.label.doispontos']}" />
+					</p:column>
+					<p:column>
+						<p:inputText id="name" value="#{userController.usuario.nome}"
+							required="true" disabled="#{SessaoDoUsuario.visualizar}"
+							requiredMessage="#{msgs['padrao.label.nome.obrigatorio']}"
+							style="width:300px">
+							<f:validateLength minimum="4" />
+							<p:ajax event="blur" update="messages" />
+						</p:inputText>
+					</p:column>
+					<p:column colspan="2">
+						<!-- <p:message id="nameMsg" for="name" /> -->
+					</p:column>
+					<p:column>
+					</p:column>
+
+					<p:column>
+						<h:outputLabel
+							value="#{msgs['cadastroUsuario.label.telefone.celular']}#{msgs['padrao.label.doispontos']}" />
+					</p:column>
+					<p:column>
+						<p:inputMask id="dddCelular" maxlength="2" mask="99"
+							disabled="#{SessaoDoUsuario.visualizar}"
+							value="#{userController.usuario.dddTelCelular}" size="2"
+							required="true"
+							requiredMessage="#{msgs['cadastroUsuario.dddCelular.obrigatorio']}">
+							<f:validateLength minimum="2" maximum="2" />
+						</p:inputMask>
+						<p:spacer width="10" />
+						<p:inputMask id="telefoneCelular" maxlength="10"
+							disabled="#{SessaoDoUsuario.visualizar}" mask="99999-9999"
+							value="#{userController.usuario.telCelular}" size="10"
+							required="true"
+							requiredMessage="#{msgs['cadastroUsuario.celular.obrigatorio']}">
+							<f:validateLength minimum="10" maximum="10" />
+						</p:inputMask>
+					</p:column>
+					<p:column colspan="2">
+
+
+
+
+					</p:column>
+					<p:column>
+					</p:column>
+
+					<p:column>
+						<h:outputLabel
+							value="#{msgs['cadastroUsuario.label.telefone.comercial']}#{msgs['padrao.label.doispontos']}" />
+					</p:column>
+					<p:column>
+						<p:inputMask id="dddComercial" maxlength="2" mask="99"
+							disabled="#{SessaoDoUsuario.visualizar}"
+							value="#{userController.usuario.dddTelComercial}" size="2"
+							required="true"
+							requiredMessage="#{msgs['cadastroUsuario.dddComercial.obrigatorio']}">
+						</p:inputMask>
+						<p:spacer width="10" />
+						<p:inputMask id="telefoneComercial" maxlength="10"
+							disabled="#{SessaoDoUsuario.visualizar}" mask="9999-9999"
+							value="#{userController.usuario.telComercial}" size="10"
+							required="true"
+							requiredMessage="#{msgs['cadastroUsuario.comercial.obrigatorio']}">
+							<f:validateLength minimum="9" maximum="9" />
+						</p:inputMask>
+						<p:spacer width="10" />
+						<p:inputText id="ramalTelefoneComercial"
+							disabled="#{SessaoDoUsuario.visualizar}"
+							value="#{userController.usuario.ramalTelComercial}" size="5"
+							validatorMessage="Campo Ramal apenas números!">
+							<f:validateRegex pattern="[0-9]+" />
+						</p:inputText>
+					</p:column>
+					<p:column colspan="2">
+
+
+					</p:column>
+					<p:column>
+					</p:column>
+
+					<p:column>
+						<h:outputLabel for="email"
+							value="#{msgs['cadastroUsuario.label.email']}#{msgs['padrao.label.doispontos']}" />
+					</p:column>
+					<p:column>
+						<p:inputText id="email" value="#{userController.usuario.email}"
+							disabled="#{SessaoDoUsuario.visualizar}" required="true"
+							requiredMessage="#{msgs['cadastroUsuario.email.required']}"
+							validatorMessage="#{msgs['cadastroUsuario.email.requiredValidator']}"
+							style="width:300px">
+							<f:validateRegex
+								pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+							<f:validateLength minimum="5" />
+							<p:ajax event="blur" update="messages" />
+						</p:inputText>
+					</p:column>
+					<p:column colspan="2">
+
+
+
+					</p:column>
+					<p:column>
+					</p:column>
+
+					<p:column rendered="#{!SessaoDoUsuario.alterarDadosCadastrais}">
+						<h:outputLabel for="perfis"
+							value="#{msgs['cadastroUsuario.label.perfil']}#{msgs['padrao.label.doispontos']}" />
+					</p:column>
+					<p:column rendered="#{!SessaoDoUsuario.alterarDadosCadastrais}">
+						<p:selectManyCheckbox id="perfis"
+							disabled="#{SessaoDoUsuario.visualizar }" required="true"
+							requiredMessage="#{msgs['cadastroUsuario.label.perfil.obrigatorio']}"
+							layout="pageDirection"
+							value="#{userController.manyCheckBoxPerfil.selecao}">
+							<f:selectItems
+								value="#{userController.manyCheckBoxPerfil.listaSelecao}" />
+							<p:ajax event="blur" update="messages" />
+						</p:selectManyCheckbox>
+					</p:column>
+					<p:column colspan="2"
+						rendered="#{!SessaoDoUsuario.alterarDadosCadastrais}">
+
+					</p:column>
+					<p:column rendered="#{!SessaoDoUsuario.alterarDadosCadastrais}">
+					</p:column>
+
+					<p:column>
+						<h:outputLabel rendered="#{SessaoDoUsuario.editar}"
+							value="#{msgs['cadastroUsuario.label.senha']}#{msgs['padrao.label.doispontos']}" />
+					</p:column>
+					<p:column colspan="3">
+						<p:commandButton value="#{msgs['cadastroUsuario.botao.reset']}"
+							rendered="#{SessaoDoUsuario.editar}" id="reset"
+							actionListener="#{userController.resetSenha}"
+							styleClass="ui-priority-primary">
+						</p:commandButton>
+					</p:column>
+					<p:column>
+					</p:column>
+					<p:column>
+					</p:column>
+
+				</h:panelGrid>
+
+			</p:fieldset>
+			<BR />
+			<h:panelGrid columns="3" cellspacing="10">
+				<p:commandButton id="adicionar" value="#{msgs['padrao.botao.salvar']}" 
+					action="#{userController.salvar}" 
+					ajax="false" rendered="#{!SessaoDoUsuario.visualizar}"  />
+
+				<p:commandButton id="voltar" value="#{msgs['padrao.botao.voltar']}"
+					action="#{userController.voltar}" 
+					async="true" process="@this" />
+
+				<p:commandButton id="limpar" value="#{msgs['padrao.botao.limpar']}"
+					action="#{userController.limpar}" 
+					type="reset" ajax="false" rendered="#{SessaoDoUsuario.criar}"/>
+			</h:panelGrid>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

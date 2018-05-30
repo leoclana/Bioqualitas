@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<f:loadBundle basename="mensagens" var="msgs" />
+
+<h:head>
+	<title><h:outputText value="#{msgs['sistema.titulo']}" /></title>
+</h:head>
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+
+		<h:form id="carga">
+
+			<p:panel id="panel" header="Página de Carga de Dados">
+
+				<p:panelGrid columns="1">
+					<p:messages id="messages" showDetail="true" autoUpdate="true"
+						closable="true" />
+					<BR />
+					<p:commandButton
+						action="#{cargaController.adicionaConfiguracao}"
+						value="Adiciona Configuração"
+						update="panel" ajax="false" />
+						
+					<p:commandButton
+						action="#{cargaController.cargaAdministradorETodosPerfisEFuncoes}"
+						value="Carga de todas as funcoes, perfis e do usuario administrador"
+						update="panel" ajax="false" />
+
+					<p:commandButton action="#{cargaController.atualizaSenhaAposCarga}"
+						value="Atualiza senha pos carga para 'adm'" update="panel"
+						ajax="false" />
+
+					<p:commandButton action="#{cargaController.importaTabelaAlimentos}"
+						value="Importar Tabela Alimentos" update="panel" ajax="false" />
+
+					<p:commandButton action="#{cargaController.adicionaDocNotificacao}"
+						value="Adiciona Notificacoes" update="panel" ajax="false" />
+
+					<p:commandButton action="#{cargaController.testaInsert}"
+						value="Testes" update="panel" ajax="false" />
+
+					<p:commandButton action="#{cargaController.adicionaFormaPagamento}"
+						value="Adiciona Forma de Pagamento" update="panel" ajax="false" />	
+						
+						<p:commandButton action="#{cargaController.adicionaCondicaoAmostra}"
+						value="Adiciona Condições da Amostra" update="panel" ajax="false" />	
+						
+						<p:commandButton action="#{cargaController.adicionaMotivoAnalise}"
+						value="Adiciona Motivo da Análise" update="panel" ajax="false" />
+						
+							<p:commandButton action="#{cargaController.adicionaLaudo}"
+						value="Adiciona Laudo" update="panel" ajax="false" />
+						
+				</p:panelGrid>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

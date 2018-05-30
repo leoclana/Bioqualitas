@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="cadPerfil">
+			<p:panel id="panel" header="#{msgs['cadastroPerfil.label.titulo']}">
+				<p:messages />
+				<h:inputHidden value="#{perfilController.perfil.idPerfil}" />
+
+				<h:panelGrid columns="3" cellpadding="10">
+					<h:outputLabel for="name"
+						value="#{msgs['padrao.label.nome']}#{msgs['padrao.label.doispontos']}" />
+					<p:inputText id="name" value="#{perfilController.perfil.nome}"
+						required="true"
+						requiredMessage="#{msgs['padrao.label.nome.obrigatorio=']}"
+						style="width:300px">
+						<f:validateLength minimum="4" />
+						<p:ajax event="blur" update="nameMsg" />
+						<p:message id="nameMsg" for="funcoes" />
+					</p:inputText>
+				</h:panelGrid>
+
+				<h:panelGrid columns="3" cellpadding="10">
+					<h:outputLabel for="ativo"
+						value="#{msgs['padrao.label.ativo']}#{msgs['padrao.label.doispontos']}" />
+					<p:selectBooleanCheckbox id="ativo"
+						value="#{perfilController.perfil.ativo}" />
+				</h:panelGrid>
+
+				<p:spacer width="10" />
+				<h:panelGrid columns="3" cellpadding="10">
+						<h:outputLabel for="funcoes"
+							value="#{msgs['cadastroPerfil.label.funcoes']}#{msgs['padrao.label.doispontos']}" />
+						<p:selectManyCheckbox id="funcoes" 
+							value="#{perfilController.manyCheckBoxFuncoes.selecao}"
+							layout="pageDirection" required="true"
+							requiredMessage="#{msgs['cadastroUsuario.nome.required']}">
+							<f:selectItems
+								value="#{perfilController.manyCheckBoxFuncoes.listaSelecao}" />
+							<p:ajax event="blur" update="nameMsgCombo" />
+						</p:selectManyCheckbox>
+						<p:message id="nameMsgCombo" for="funcoes" />
+				</h:panelGrid>
+
+				<h:panelGrid columns="2" cellpadding="10">
+						<p:commandButton id="salvar"
+							value="#{msgs['padrao.botao.salvar']}" update="panel"
+							action="#{perfilController.salvar}" ajax="false" />
+
+						<p:commandButton id="limpar"
+							value="#{msgs['padrao.botao.limpar']}"
+							action="#{perfilController.limpar}" type="reset" ajax="false" />
+				</h:panelGrid>
+
+
+			</p:panel>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

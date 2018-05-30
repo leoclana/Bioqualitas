@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form>
+
+			<p:fieldset legend="Motivos">
+
+				<p:dataTable id="motivo" var="m"
+					value="#{motivoController.motivoList}" paginator="true" rows="10"
+					style="width: 100%"
+					emptyMessage="#{msgs['padrao.registro.nenhum.encontrado']}">
+
+					<f:facet name="header">
+						<h:panelGrid>
+							<p:commandButton value="Criar Motivo de Analise"
+								action="#{motivoController.criar}" type="submit"
+								icon="ui-icon ui-icon-document" ajax="false" />
+						</h:panelGrid>
+					</f:facet>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Name" />
+						</f:facet>
+
+						<h:commandLink value="#{m.nome}"
+							action="#{motivoController.editar}">
+							<f:setPropertyActionListener target="#{motivoController.motivo}"
+								value="#{m}" />
+						</h:commandLink>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Ativo" />
+						</f:facet>
+						<h:outputText value="#{m.ativo}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="" />
+						</f:facet>
+						<p:commandButton action="#{motivoController.deletar}"
+							type="submit" icon="ui-icon ui-icon-trash"
+							onclick="if (!confirm('Confirma a exlucão do motivo #{m.nome} ?')) return false;"
+							ajax="false">
+							<f:setPropertyActionListener target="#{motivoController.motivo}"
+								value="#{m}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

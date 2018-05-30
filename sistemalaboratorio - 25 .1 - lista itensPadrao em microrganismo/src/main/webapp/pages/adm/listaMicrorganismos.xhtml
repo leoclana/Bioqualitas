@@ -1,0 +1,134 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="microrgranismoForm">
+
+			<p:fieldset id="orientacoes1" toggleable="true" toggleSpeed="500"
+				legend="#{msgs['padrao.secao.orientacoes.label']}">
+
+				<h:panelGrid>
+					<p>
+						<h:outputText
+							value="1. #{msgs['microrganismo.consulta.label.orientacoes.Dados1']}" />
+						<h:outputText
+							value="2. #{msgs['microrganismo.consulta.label.orientacoes.Dados2']}" />
+						<h:outputText
+							value="3. #{msgs['microrganismo.consulta.label.orientacoes.Dados3']}" />
+					</p>
+					<p>
+						<p:commandButton action="#{microrganismoController.criar}"
+							type="submit" icon="ui-icon ui-icon-document" ajax="false"
+							value="#{msgs['padrao.botao.novo']}" />
+					</p>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<br />
+
+			<p:fieldset id="fdmicrorganismos"
+				legend="#{msgs['microrganismo.consulta.cabecalho']}">
+
+				<p:dataTable id="microrganismos" var="itemPadrao"
+					widgetVar="dataTableMicrorganismos"
+					value="#{microrganismoController.itemPadraoList}" paginator="true"
+					rows="10" style="width: 100%;"
+					emptyMessage="#{msgs['padrao.registro.nenhum.encontrado']}"
+					filteredValue="#{microrganismoController.itemPadraoListFiltered}">
+
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="#{msgs['padrao.label.filtrar']}#{msgs['padrao.label.doispontos']}" />
+							<p:inputText id="globalFilter"
+										 onkeyup="PF('dataTableMicrorganismos').filter()"
+										 style="width:150px;margin-left:10px"
+										 placeholder="Enter keyword"/>
+						</p:outputPanel>
+					</f:facet>
+			
+					<p:column filterBy="#{itemPadrao.codigoLegislacao}"
+						headerText="#{msgs['microrganismo.consulta.tabela.colunaCodigoLegislacao']}"
+						filterMatchMode="contains"
+						filterStyle="display:none; visibility:hidden;">
+						<h:commandLink value="#{itemPadrao.codigoLegislacao}"
+							action="#{microrganismoController.visualizar}">
+							<f:setPropertyActionListener
+								target="#{microrganismoController.itemPadrao}"
+								value="#{itemPadrao}" />
+						</h:commandLink>
+					</p:column>
+
+					<p:column filterBy="#{itemPadrao.microrganismo.nome}"
+						headerText="#{msgs['microrganismo.consulta.tabela.colunaNome']}"
+						filterMatchMode="contains"
+						filterStyle="display:none; visibility:hidden;">
+						<h:commandLink value="#{itemPadrao.microrganismo.nome}"
+							action="#{microrganismoController.visualizar}">
+							<f:setPropertyActionListener
+								target="#{microrganismoController.itemPadrao}"
+								value="#{itemPadrao}" />
+						</h:commandLink>
+					</p:column>
+
+					<p:column filterBy="#{itemPadrao.toleranciaLimInf}"
+						headerText="#{msgs['microrganismo.consulta.tabela.colunaToleranciaInferior']}"
+						filterMatchMode="contains"
+						filterStyle="display:none; visibility:hidden;">
+						<h:outputText value="#{itemPadrao.toleranciaLimInf}" />
+					</p:column>
+
+					<p:column filterBy="#{itemPadrao.toleranciaLimSup}"
+						headerText="#{msgs['microrganismo.consulta.tabela.colunaToleranciaSuperior']}"
+						filterMatchMode="contains"
+						filterStyle="display:none; visibility:hidden;">
+						<h:outputText value="#{itemPadrao.toleranciaLimSup}" />
+					</p:column>
+
+
+
+
+
+					<p:column filterBy="#{itemPadrao.unidadeMedida}"
+							  headerText="#{msgs['microrganismo.form.label.unidadedemedida']}"
+							  filterMatchMode="contains"
+							  filterStyle="display:none; visibility:hidden;">
+						<h:outputText value="#{itemPadrao.unidadeMedida}" />
+					</p:column>
+
+
+
+
+
+
+
+
+					<p:column>
+						<p:commandButton action="#{microrganismoController.editar}"
+							icon="ui-icon ui-icon-pencil">
+							<f:setPropertyActionListener
+								target="#{microrganismoController.itemPadrao}"
+								value="#{itemPadrao}" />
+						</p:commandButton>
+					</p:column>
+					<p:column>
+						<p:commandButton action="#{microrganismoController.deletar}"
+							type="submit" icon="ui-icon ui-icon-trash"
+							onclick="if (!confirm('Confirma a exlusão do microrganismo #{itemPadrao.microrganismo.nome} ?')) return false;"
+							ajax="false">
+							<f:setPropertyActionListener
+								target="#{microrganismoController.itemPadrao}"
+								value="#{itemPadrao}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+			</p:fieldset>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

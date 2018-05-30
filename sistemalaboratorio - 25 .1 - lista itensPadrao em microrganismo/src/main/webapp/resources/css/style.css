@@ -1,0 +1,418 @@
+/* base */
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+body {
+	font-size: 12px;
+	color: #000;
+	font-family: helvetica, arial, sans-serif;
+	padding-bottom: 30px;
+	text-align: center;
+}
+
+A:LINK {
+	text-decoration: underline
+}
+
+A:VISITED {
+	text-decoration: none
+}
+
+A:ACTIVE {
+	text-decoration: none
+}
+
+A:HOVER {
+	text-decoration: none
+}
+
+a Img {
+	border-width: 0;
+}
+
+/** cabecalho **/
+#cabecalho,header {
+	background-color: #FFFFFF;
+	height: 100px;
+	position: relative;
+	top: 0px;
+}
+#cabecalho2,header2 {
+	
+   background: #009900;
+   background: -moz-linear-gradient(top,  #009900 0%, #003300 100%);
+   background: -webkit-gradient(linear, left top, left bottom,
+                color-stop(0%,#009900), color-stop(100%,#003300));
+   background: -webkit-linear-gradient(top,  #009900 0%,#003300 100%);
+   background: -o-linear-gradient(top,  #009900 0%,#003300 100%);
+   background: -ms-linear-gradient(top,  #009900 0%,#003300 100%);
+   background: linear-gradient(to bottom,  #009900 0%,#003300 100%);
+   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#009900',
+           endColorstr='#003300',GradientType=0 );
+
+
+	height: 120px;
+	position: relative;
+	top: 0px;
+}
+
+#logoCompany {
+	margin-left: 100px;
+	margin-top: 15px;
+	padding-left: 2px;
+	float: left;
+	position: relative;
+	width: 150px;
+	height: 90px;
+    border-radius: 0px 0px 15px 15px;
+}
+
+#usuarioLogado {
+	color: #3232CD;
+	display: block;
+	float: right;
+	right: 50%;
+	margin-right: -450px;
+	position: absolute;
+}
+
+#usuarioLogado a {
+	color: #3232CD;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#usuarioLogado a:hover {
+	text-decoration: none;
+}
+
+.jquery-ui-themeswitcher-trigger {
+	position: absolute;
+	float: right;
+	top: 5px;
+	right: 50%;
+	margin-right: -450px;
+}
+
+/* miolo */
+#conteudo,section {
+	width: 900px;
+	height: auto;
+	position: relative;
+	padding: 10px 0px;
+	background-color: #FFF;
+	margin: 0 auto;
+}
+/** top: 170px; **/
+
+/** rodape **/
+#rodape,footer {
+	background-color: #003300;
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	padding: 10px 0px;
+	text-align: center;
+	font-size: 10px;
+	color: #FFF;
+	display: block;
+}
+
+/* TITULO */
+h2 {
+	display: block;
+	position: relative;
+	overflow: hidden;
+	color: #2B2926;
+	text-align: left;
+	height: auto;
+	margin-bottom: 10px;
+	border-bottom: 1px solid;
+	clear: both;
+	font-size: x-large;
+	width: 100%;
+}
+
+/* FORM */
+
+
+input,textarea,select {
+	margin-bottom: 3px !important;
+}
+
+textarea {
+	width: 300px;
+}
+
+input:not    (.ui-widget    ),textarea:not    (.ui-widget    ),select {
+	-moz-border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+	background: url("../resources/imagens/txt.gif") repeat-x scroll 0 0
+		transparent;
+	border: 1px solid #999999;
+	padding: 5px 2px;
+}
+
+label {
+	color:#155c91; 
+/* 	display: block;
+	float: right;
+	margin-right: 20px;
+	text-align: right;
+	width: 120px; */
+	font-family: helvetica, arial, sans-serif;
+	padding: 5px;
+	font-weight: bold;
+}
+
+input:after {
+	clear: both;
+}
+
+.ui-spinner {
+	float: left;
+	margin-left: 303px;
+}
+
+.ui-editor {
+	margin-bottom: 5px;
+	width: 600px !important;
+}
+
+input[type=submit],button {
+	margin: 0 auto;
+}
+
+input[type=submit] {
+	background: url("../resources/imagens/fundo_botao.gif") repeat-x scroll
+		0 0 #2A2A2A;
+	border: 1px solid #272727;
+	color: #FFFFFF;
+	cursor: pointer;
+	padding: 3px;
+	position: relative;
+	text-shadow: 1px 1px 0 #000000;
+	-moz-border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	border-radius: 5px 5px 5px 5px;
+}
+
+table button {
+	margin: 0 4px;
+	border-width: 0;
+}
+
+.acoes {
+	text-align: center;
+}
+
+form {
+	margin-bottom: 10px;
+	position: relative;
+	text-align: left;
+}
+
+form fieldset {
+	padding: 10px 0px 10px 10px;
+	margin: 5px 0 0px 0;
+	text-align: left;
+	width: 887px;
+}
+
+form .ui-fieldset {
+	width: 873px;
+}
+
+.ui-tabs {
+	clear: both;
+	margin-bottom: 20px;
+}
+
+.ui-tabs fieldset {
+	width: 830px;
+}
+
+form fieldset legend {
+	font-weight: bold;
+	padding: 0px 5px;
+}
+
+form .campos {
+	display: block;
+	position: relative;
+	overflow: hidden;
+}
+
+.semBorda tr,.semBorda td {
+	border: none !important;
+}
+
+/* tabela zebrada */
+table.dados {
+	height: auto;
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+table.dados tr th {
+	background-color: #0B0F19;
+	color: #FFF;
+	color: 1em;
+	padding: 10px;
+}
+
+table.dados tr td {
+	padding: 5px 10px;
+}
+
+.campos tbody tr td {
+	padding-top: 10px;
+	text-align: left;
+}
+
+.dados {
+	width: 100%;
+}
+
+.par {
+	background-color: #F0F9FF;
+}
+
+.impar {
+	background: none repeat scroll 0 0 #DDDDDD;
+}
+
+/* validacao */
+.erros {
+	margin: 0 0 10px 0;
+	padding: 0 8px;
+	clear: both;
+}
+
+.erros li {
+	display: inline;
+	list-style-position: inside;
+	list-style-type: none;
+	color: #C22;
+	background: #FFDFDF;
+	border: 2px solid #DF7D7D;
+	float: left;
+	padding: 6px;
+	margin: 3px;
+}
+
+.menu {
+	MARGIN-TOP: 66px;
+	WIDTH: 475px;
+	BACKGROUND: url(bk_menu.gif) repeat-x;
+	FLOAT: left;
+	HEIGHT: 43px;
+	_width: 473px
+}
+
+.menu_int {
+	MARGIN-TOP: 33px;
+	WIDTH: 660px;
+	BACKGROUND: url(bk_menu.gif) #21375f repeat-x;
+	FLOAT: left;
+	HEIGHT: 43px
+}
+
+.menu UL {
+	PADDING-LEFT: 10px;
+	PADDING-TOP: 13px
+}
+
+.menu_int UL {
+	PADDING-LEFT: 10px;
+	PADDING-TOP: 13px
+}
+
+.menu UL LI {
+	FONT-FAMILY: Verdana, Geneva, sans-serif;
+	FLOAT: left;
+	COLOR: #fff;
+	FONT-SIZE: 11px;
+	FONT-WEIGHT: bold;
+	MARGIN-RIGHT: 4px
+}
+
+.menu_int UL LI {
+	FONT-FAMILY: Verdana, Geneva, sans-serif;
+	FLOAT: left;
+	COLOR: #fff;
+	FONT-SIZE: 11px;
+	FONT-WEIGHT: bold;
+	MARGIN-RIGHT: 4px
+}
+
+.menu UL LI A {
+	COLOR: #fff;
+	TEXT-DECORATION: none
+}
+
+.menu_int UL LI A {
+	COLOR: #fff;
+	TEXT-DECORATION: none
+}
+
+.menu UL LI A:hover {
+	TEXT-DECORATION: underline
+}
+
+.menu_int UL LI A:hover {
+	TEXT-DECORATION: underline
+}
+
+.menu_int UL LI SPAN {
+	COLOR: #fc0
+}
+
+.formTable td:nth-child(1) {
+    width: 20px;
+}
+
+.formColumn1{
+	width: 260px !important;
+	height:35px !important;
+	text-align: -webkit-left
+}
+.formColumn1Usuario{
+	width: 150px;
+	height:35px;
+	text-align: -webkit-left
+}
+.formColumn2{
+	width: 50px;
+	height:auto
+}
+.formColumn3{
+	width: 150px;
+	height:auto
+}
+.formColumn4{
+	width: 50px;
+	height:auto
+}
+.formColumnTitulo{
+	height:35px;
+	text-align: center;
+}
+
+.ui-grid{
+	text-align: left;
+}
+.ui-grid-row{
+	padding-bottom: 3px;
+}
+.ui-panel .ui-panel-content {
+	padding: 0em 0em !important;
+}
+.ui-datatable .ui-datatable-header, .ui-datatable .ui-datatable-footer {
+    border: none;
+    background: none;
+	text-align: left !important;
+}

@@ -1,0 +1,97 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form>
+
+			<p:fieldset id="orientacoes1" toggleable="true" toggleSpeed="500"
+				legend="#{msgs['padrao.secao.orientacoes.label']}">
+				<h:panelGrid>
+					<p>
+						<h:outputText
+							value="1. #{msgs['usuario.consulta.label.orientacoes.Dados1']}" />
+						<h:outputText
+							value="2. #{msgs['usuario.consulta.label.orientacoes.Dados2']}" />
+					</p>
+					<p>
+						<p:commandButton action="#{userController.criar}" type="submit"
+							icon="ui-icon ui-icon-document" ajax="false"
+							rendered="#{SessaoDoUsuario.podeCadastrarUsuario}"
+							value="#{msgs['padrao.botao.novo']}" />
+					</p>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<br />
+
+			<p:fieldset legend="#{msgs['usuario.consulta.cabecalho']}">
+
+				<p:messages />
+				<p:dataTable id="users" var="usuario" widgetVar="dataTableUsuarios"
+					value="#{userController.userList}" paginator="true" rows="10"
+					style="width: 100%"
+					emptyMessage="#{msgs['padrao.registro.nenhum.encontrado']}"
+					filteredValue="#{userController.userListFiltered}">
+
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="#{msgs['padrao.label.filtrar']}#{msgs['padrao.label.doispontos']}" />
+							<p:inputText id="globalFilter"
+										 onkeyup="PF('dataTableUsuarios').filter()"
+										 style="width:150px;margin-left:10px"
+										 placeholder="Enter keyword"/>
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column filterBy="#{usuario.nome}"
+						headerText="#{msgs['padrao.consulta.tabela.colunaNome']}"
+						filterMatchMode="contains"
+						filterStyle="display:none; visibility:hidden;">
+						<h:commandLink value="#{usuario.nome}"
+							action="#{userController.visualizar}">
+							<f:setPropertyActionListener target="#{userController.usuario}"
+								value="#{usuario}" />
+						</h:commandLink>
+					</p:column>
+
+					<p:column filterBy="#{usuario.email}"
+						headerText="#{msgs['padrao.consulta.tabela.colunaEmail']}"
+						filterMatchMode="contains"
+						filterStyle="display:none; visibility:hidden;">
+						<h:outputText value="#{usuario.email}" />
+					</p:column>
+
+					<p:column filterBy="#{usuario.cliente.nome}"
+						headerText="#{msgs['padrao.consulta.tabela.colunaCliente']}"
+						filterMatchMode="contains"
+						filterStyle="display:none; visibility:hidden;">
+						<h:outputText value="#{usuario.cliente.nome}" />
+					</p:column>
+
+					<p:column rendered="#{SessaoDoUsuario.podeCadastrarUsuario}">
+						<p:commandButton action="#{userController.editar}"
+							icon="ui-icon ui-icon-pencil">
+							<f:setPropertyActionListener target="#{userController.usuario}"
+								value="#{usuario}" />
+						</p:commandButton>
+					</p:column>
+					<p:column rendered="#{SessaoDoUsuario.podeCadastrarUsuario}">
+						<p:commandButton action="#{userController.deletar}" type="submit"
+							icon="ui-icon ui-icon-trash"
+							onclick="if (!confirm('Confirma a exlusão do usuario #{usuario.nome} ?')) return false;"
+							ajax="false">
+							<f:setPropertyActionListener target="#{userController.usuario}"
+								value="#{usuario}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:fieldset>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

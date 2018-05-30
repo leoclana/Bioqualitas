@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="cadMotivo">
+			<p:panel id="panel" header="Cadastro de Motivo de Analise">
+							
+				<h:inputHidden value="#{motivoController.motivo.idMotivo}" />
+				
+				<h:panelGrid columns="3" cellpadding="10">
+					<h:outputLabel for="name"
+						value="#{msgs['padrao.label.nome']}#{msgs['padrao.label.doispontos']}" />
+
+					<p:inputText id="name" value="#{motivoController.motivo.nome}"
+					 required="true"
+						requiredMessage="#{msgs['padrao.label.nome.obrigatorio']}"
+						style="width:300px">
+						<f:validateLength minimum="4" />
+						<p:ajax event="blur" update="nameMsg" />
+					</p:inputText>
+					<p:message id="nameMsg" for="name" />
+					
+					<h:outputLabel for="ativo"
+						value="#{msgs['padrao.label.ativo']}" />
+					<p:selectBooleanCheckbox id="ativo"
+						value="#{motivoController.motivo.ativo}" />
+					</h:panelGrid>
+
+				<p:commandButton id="adicionar"
+					value="Salvar" update="panel"
+					action="#{motivoController.salvar}" ajax="false" />
+
+				<p:commandButton id="limpar"
+					value="#{msgs['padrao.botao.limpar']}"
+					action="#{motivoController.limpar}" type="reset" ajax="false" />
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

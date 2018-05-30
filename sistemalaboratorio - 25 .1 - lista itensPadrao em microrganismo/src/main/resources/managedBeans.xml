@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="services.xml" />
+
+	<bean id="baseController" class="com.managed.bean.BaseMB"
+		abstract="true" scope="request">
+	</bean>
+
+	<bean id="logController" class="com.managed.bean.LogMB" scope="request"
+		parent="baseController">
+		<constructor-arg ref="LogService" />
+	</bean>
+
+	<bean id="loginController" class="com.managed.bean.LoginMB" scope="request"
+		parent="baseController">
+		<constructor-arg ref="UsuarioService" />
+		<constructor-arg ref="PerfilService" />
+	</bean>
+
+	<bean id="userController" class="com.managed.bean.UsuarioMB"
+		scope="session" parent="baseController">
+		<constructor-arg ref="UsuarioService" />
+		<constructor-arg ref="ClienteService" />
+		<constructor-arg ref="PerfilService" />
+	</bean>
+
+	<bean id="clienteController" class="com.managed.bean.ClienteMB"
+		scope="session" parent="baseController">
+		<constructor-arg ref="ClienteService" />
+		<constructor-arg ref="UsuarioService" />
+		<constructor-arg ref="SolicitacaoService" />
+	</bean>
+
+	<bean id="microrganismoController" class="com.managed.bean.MicrorganismoMB"
+		scope="request" parent="baseController">
+		<constructor-arg ref="GrupoService" />
+		<constructor-arg ref="ItemGrupoService" />
+		<constructor-arg ref="PadraoService" />
+		<constructor-arg ref="ItemPadraoService" />
+		<constructor-arg ref="MicrorganismoService" />
+	</bean>
+
+	<bean id="perfilController" class="com.managed.bean.PerfilMB"
+		scope="request" parent="baseController">
+		<constructor-arg ref="PerfilService" />
+		<constructor-arg ref="FuncaoService" />
+	</bean>
+
+	<bean id="funcaoController" class="com.managed.bean.FuncaoMB"
+		scope="request" parent="baseController">
+		<constructor-arg ref="FuncaoService" />
+	</bean>
+
+	<bean id="motivoController" class="com.managed.bean.MotivoMB"
+		scope="request" parent="baseController">
+		<constructor-arg ref="MotivoService" />
+	</bean>
+
+	<bean id="formaController" class="com.managed.bean.FormaMB" scope="request"
+		parent="baseController">
+		<constructor-arg ref="FormaService" />
+	</bean>
+
+	<bean id="cargaController" class="com.managed.bean.CargaMB" scope="request"
+		parent="baseController">
+		<constructor-arg ref="ClienteService" />
+		<constructor-arg ref="UsuarioService" />
+		<constructor-arg ref="PerfilService" />
+		<constructor-arg ref="FuncaoService" />
+		<constructor-arg ref="GrupoService" />
+		<constructor-arg ref="ItemGrupoService" />
+		<constructor-arg ref="PadraoService" />
+		<constructor-arg ref="ItemPadraoService" />
+		<constructor-arg ref="MicrorganismoService" />
+		<constructor-arg ref="NotificacaoService" />
+		<constructor-arg ref="FormaService" />
+		<constructor-arg ref="CondicaoAmostraService" />
+		<constructor-arg ref="ConfiguracaoService" />
+		<constructor-arg ref="MotivoService" />
+		<constructor-arg ref="LaudoService" />
+	</bean>
+
+	<bean id="configuracaoController" class="com.managed.bean.ConfiguracaoMB"
+		scope="request" parent="baseController">
+		<constructor-arg ref="ConfiguracaoService" />
+	</bean>
+
+	<bean id="notificacaoController" class="com.managed.bean.NotificacaoMB"
+		scope="request" parent="baseController">
+		<constructor-arg ref="NotificacaoService" />
+	</bean>
+
+	<bean id="solicitacaoController" class="com.managed.bean.SolicitacaoMB"
+		scope="request" parent="baseController">
+		<constructor-arg ref="SolicitacaoService" />
+		<constructor-arg ref="AmostraService" />
+		<constructor-arg ref="ClienteService" />
+		<constructor-arg ref="FormaService" />
+		<constructor-arg ref="ResultadoService" />
+		<constructor-arg ref="ConfiguracaoService" />
+	</bean>
+
+	<bean id="amostraController" class="com.managed.bean.AmostraMB"
+		scope="request" parent="baseController">
+		<constructor-arg ref="AmostraService" />
+		<constructor-arg ref="ResultadoService" />
+		<constructor-arg ref="ItemPadraoService" />
+		<constructor-arg ref="MicrorganismoService" />
+		<constructor-arg ref="MotivoService" />
+		<constructor-arg ref="CondicaoAmostraService" />
+		<constructor-arg ref="LaudoService" />
+	</bean>
+
+	<bean id="indicadorController" class="com.managed.bean.IndicadorMB"
+		scope="request" parent="baseController">
+		<constructor-arg ref="ClienteService" />
+		<constructor-arg ref="MotivoService" />
+		<constructor-arg ref="AmostraService" />
+	</bean>
+
+</beans>

@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="cadlog">
+				<p:messages />
+				<h:inputHidden value="#{logController.log.idLog}" />
+
+				<h:panelGrid columns="2" cellpadding="25" cellspacing="25">
+
+					<h:outputLabel for="data" value="Data" />
+					<h:outputLabel id="data" value="#{logController.log.data}" />
+
+					<h:outputLabel for="descricao" value="Descricao" />
+					<h:outputLabel id="descricao" value="#{logController.log.descricao}" />
+
+				</h:panelGrid>
+
+				<p:commandButton id="voltar" value="Voltar" 
+					action="#{logController.listar}" ajax="false" />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,667 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="formcadmostra">
+			<h:inputHidden value="#{amostraController.amostra.idAmostra}" />
+
+			<p:fieldset id="idAmostraInvalida" toggleable="false"
+				toggleSpeed="500" style="width:96%"
+				legend="#{msgs['amostra.form.label.amostrainvalida']}"
+				rendered="#{amostraController.amostra.invalida == '0'?false:true}">
+				<h:panelGrid columns="2">
+					<h:outputText
+						value="#{msgs['amostra.dialog.invalidar.titulo']}#{msgs['padrao.label.doispontos']}"
+						style="color:#155c91; 	font-family: helvetica, arial, sans-serif;	padding: 5px;	font-weight: bold;" />
+					<h:outputText value="#{amostraController.amostra.justificativa}"
+						style="color:red; 	font-family: helvetica, arial, sans-serif;	padding: 5px;	font-weight: bold;" />
+				</h:panelGrid>
+			</p:fieldset>
+			<br />
+			<p:fieldset id="orientacoes1" toggleable="true" toggleSpeed="500"
+				style="width:96%" legend="#{msgs['padrao.secao.orientacoes.label']}">
+				<h:panelGrid>
+					<h:outputText
+						value="#{msgs['amostra.form.label.orientacoes.dados1']}" />
+					<h:outputText
+						value="#{msgs['amostra.form.label.orientacoes.dados2']}" />
+					<h:outputText
+						value="#{msgs['amostra.form.label.orientacoes.dados3']}" />
+					<br />
+				</h:panelGrid>
+			</p:fieldset>
+			<br />
+			<p:fieldset id="dadosBasicos"
+				legend="#{msgs['padrao.secao.dadosbasicos.label']}"
+				style="width:96%">
+
+				<p:messages id="messages" showSummary="true" showDetail="false"
+					autoUpdate="true" closable="true" />
+
+				<h:panelGrid columns="3"
+					columnClasses="formColumn1, formColumn2, formColumn3">
+
+					<h:column
+						rendered="#{amostraController.amostra.idAmostra == '0'?false:true}">
+						<h:outputLabel for="numeroAmostra"
+							value="#{msgs['amostra.form.label.numamostra']}#{msgs['padrao.label.doispontos']}" />
+					</h:column>
+					<h:column
+						rendered="#{amostraController.amostra.idAmostra == '0'?false:true}">
+						<h:outputText id="numeroAmostra"
+							value="#{amostraController.amostra.strNumero}"
+							disabled="#{!SessaoDoUsuario.editar}" style="width:200%">
+						</h:outputText>
+					</h:column>
+					<h:column
+						rendered="#{amostraController.amostra.idAmostra == '0'?false:true}" />
+
+					<h:column>
+						<h:outputLabel for="tipoAnalise"
+							value="#{msgs['amostra.form.label.tipodeanalise']}#{msgs['padrao.label.doispontos']}" />
+					</h:column>
+					<h:column>
+						<h:selectOneMenu id="tipoAnalise"
+							disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							value="#{amostraController.amostra.tipoAnalise}" required="true"
+							requiredMessage="#{msgs['amostra.form.label.tipodeanalise.required']}"
+							style="width:auto">
+							<p:ajax event="change"
+								listener="#{amostraController.onTipoAnaliseChange}"
+								update="dadosBasicos caracteristicasGerais microrganismosResultado orientacoes1" />
+							<f:selectItems value="#{amostraController.tipoAnaliseList}" />
+						</h:selectOneMenu>
+					</h:column>
+					<h:column></h:column>
+
+					<h:column rendered="#{amostraController.tipoAnaliseAlimento}">
+						<h:outputLabel id="temperaturaAmostraLabel"
+							for="temperaturaAmostra"
+							value="#{msgs['amostra.form.label.temperaturaamostra']}#{msgs['padrao.label.doispontos']}" />
+					</h:column>
+					<h:column rendered="#{amostraController.tipoAnaliseAlimento}">
+						<p:inputText id="temperaturaAmostra"
+							value="#{amostraController.amostra.tempAmostra}"
+							disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							style="width:140px">
+							<p:ajax event="blur" />
+						</p:inputText>
+
+						<br />
+
+						<p:selectBooleanCheckbox id="ativo"
+												 disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+												 value="#{amostraController.amostra.congelado}">
+												 <p:ajax event="change" />
+						</p:selectBooleanCheckbox>
+						<h:outputLabel for="ativo"
+									   value="#{msgs['amostra.form.label.amostracongelada']}"
+									   style="vertical-align:super;" />
+					</h:column>
+
+
+					<h:column rendered="#{amostraController.tipoAnaliseAlimento}" />
+
+					<h:column rendered="#{amostraController.tipoAnaliseAlimento}">
+						<h:outputLabel id="temperaturaAmostraColetaLabel"
+							for="temperaturaAmostraColeta"
+							value="#{msgs['amostra.form.label.temperaturaamostracoleta']}#{msgs['padrao.label.doispontos']}" />
+					</h:column>
+					<h:column rendered="#{amostraController.tipoAnaliseAlimento}">
+						<p:inputText id="temperaturaAmostraColeta"
+							value="#{amostraController.amostra.tempAmostraColeta}"
+							disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							style="width:140px">
+							<p:ajax event="blur" />
+						</p:inputText>
+					</h:column>
+					<h:column rendered="#{amostraController.tipoAnaliseAlimento}" />
+
+					<h:column rendered="#{amostraController.tipoAnaliseAlimento}">
+						<h:outputLabel id="horaEntregaLabel" for="horaEntrega"
+							value="#{msgs['amostra.form.label.horaentrega']}#{msgs['padrao.label.doispontos']}" />
+					</h:column>
+					<h:column rendered="#{amostraController.tipoAnaliseAlimento}">
+						<p:calendar id="horaEntrega" styleClass="calendar"
+									value="#{amostraController.amostra.hrEntrega}"
+									pattern="#{msgs['sistema.formato.data']} #{msgs['sistema.formato.hora']}"
+									showOn="button"
+									locale="pt_BR"
+									required="true"
+									requiredMessage="#{msgs['amostra.form.label.horaentrega.required']}"
+									disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}">
+							<p:ajax event="blur" />
+						</p:calendar>
+					</h:column>
+					<h:column rendered="#{amostraController.tipoAnaliseAlimento}" />
+
+					<h:column rendered="#{amostraController.tipoAnaliseManipulador}">
+						<h:outputLabel id="nomeManipuladorLabel" for="nomeManipulador"
+							value="#{msgs['amostra.form.label.nomemanipulador']}#{msgs['padrao.label.doispontos']}" />
+					</h:column>
+					<h:column rendered="#{amostraController.tipoAnaliseManipulador}">
+						<p:inputText id="nomeManipulador"
+							value="#{amostraController.amostra.nomeManipulador}"
+							disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							required="true"
+							requiredMessage="#{msgs['amostra.form.label.nomemanipulador.required']}"
+							style="width:300px">
+							<p:ajax event="blur" update="messages" />
+						</p:inputText>
+					</h:column>
+					<h:column rendered="#{amostraController.tipoAnaliseManipulador}" />
+
+					<h:column rendered="#{amostraController.tipoAnaliseManipulador}">
+						<h:outputLabel id="tarefaExecutadaLabel" for="tarefaExecutada"
+							value="#{msgs['amostra.form.label.tarefaexecutada']}#{msgs['padrao.label.doispontos']}" />
+					</h:column>
+					<h:column rendered="#{amostraController.tipoAnaliseManipulador}">
+						<p:inputText id="tarefaExecutada"
+							value="#{amostraController.amostra.tarefaExecutada}"
+							disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							required="true"
+							requiredMessage="#{msgs['amostra.form.label.tarefaexecutada.required']}"
+							style="width:300px">
+							<p:ajax event="blur" update="messages" />
+						</p:inputText>
+					</h:column>
+					<h:column rendered="#{amostraController.tipoAnaliseManipulador}" />
+
+					<h:column rendered="#{amostraController.tipoAnaliseSuperficie}" />
+					<h:column rendered="#{amostraController.tipoAnaliseSuperficie}">
+						<h:selectOneRadio id="usoSuperficie"
+							disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							value="#{amostraController.amostra.usoSuperficie}">
+							<f:selectItem
+								itemLabel="#{msgs['amostra.form.label.prontoparauso']}"
+								itemValue="0" />
+							<f:selectItem itemLabel="#{msgs['amostra.form.label.emuso']}"
+								itemValue="1" />
+						</h:selectOneRadio>
+					</h:column>
+					<h:column rendered="#{amostraController.tipoAnaliseSuperficie}" />
+
+					<h:column rendered="#{!amostraController.tipoAnaliseAlimento}">
+						<h:outputLabel id="horaColetarLabel" for="horaColetar"
+							value="#{msgs['amostra.form.label.hrcoleta']}#{msgs['padrao.label.doispontos']}" />
+					</h:column>
+					<h:column rendered="#{!amostraController.tipoAnaliseAlimento}">
+						<p:calendar id="horaColetar" styleClass="calendar"
+									value="#{amostraController.amostra.hrColeta}"
+									pattern="#{msgs['sistema.formato.data']} #{msgs['sistema.formato.hora']}"
+									showOn="button"
+									locale="pt_BR"
+									required="true"
+									requiredMessage="#{msgs['amostra.form.label.hrcoleta.required']}"
+									disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}">
+						</p:calendar>
+					</h:column>
+					<h:column rendered="#{!amostraController.tipoAnaliseAlimento}" />
+
+					<h:column>
+						<h:outputLabel id="respColetaLabel" for="respColeta"
+							value="#{msgs['amostra.form.label.responsavelcoleta']}#{msgs['padrao.label.doispontos']}" />
+					</h:column>
+					<h:column>
+						<p:inputText id="respColeta"
+							value="#{amostraController.amostra.responsavelColeta}"
+							disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							required="true"
+							requiredMessage="#{msgs['amostra.form.label.responsavelcoleta.required']}"
+							style="width:230px">
+							<p:ajax event="blur" update="messages" />
+						</p:inputText>
+					</h:column>
+					<h:column />
+
+					<h:column rendered="#{amostraController.tipoAnaliseAlimento}">
+						<h:outputLabel id="motivoAnaliseLabel" for="motivoanaliseList"
+							value="#{msgs['amostra.form.label.motivoanalise']}#{msgs['padrao.label.doispontos']}" />
+					</h:column>
+					<h:column rendered="#{amostraController.tipoAnaliseAlimento}">
+						<h:selectOneMenu id="motivoanaliseList"
+							converter="SimpleEntityConverter"
+							value="#{amostraController.amostra.motivoAnalise}"
+							disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							required="true"
+							requiredMessage="#{msgs['amostra.form.label.motivoanalise.required']}"
+							style="width:auto">
+							<p:ajax event="change" update="dadosBasicos" />
+							<f:selectItems value="#{amostraController.motivoAnaliseList}" />
+						</h:selectOneMenu>
+					</h:column>
+					<h:column rendered="#{amostraController.tipoAnaliseAlimento}" />
+
+					<h:column rendered="#{amostraController.motivoAnaliseOutros}">
+						<h:outputLabel id="idmotivoAnaliseOutro" for="motivoAnalise"
+							rendered="#{amostraController.motivoAnaliseOutros}" value="" />
+					</h:column>
+					<h:column rendered="#{amostraController.motivoAnaliseOutros}">
+						<p:inputText id="motivoAnalise"
+							rendered="#{amostraController.motivoAnaliseOutros}"
+							value="#{amostraController.amostra.motivoAnaliseText}"
+							disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							style="width:230px">
+							<p:ajax event="blur" update="messages" />
+						</p:inputText>
+					</h:column>
+					<h:column rendered="#{amostraController.motivoAnaliseOutros}" />
+
+					<h:column rendered="#{amostraController.tipoAnaliseAlimento}">
+						<h:outputLabel id="condicaoAmostraLabel" for="condicaoAmostra"
+							value="#{msgs['amostra.form.label.condicaoamostra']}#{msgs['padrao.label.doispontos']}" />
+					</h:column>
+					<h:column rendered="#{amostraController.tipoAnaliseAlimento}">
+						<h:selectManyListbox id="condicaoAmostra"
+											 converter="SimpleEntityConverter"
+											 value="#{amostraController.amostra.condicoes}"
+											 collectionType="java.util.ArrayList"
+											 required="true"
+											 requiredMessage="#{msgs['amostra.form.label.condicaoamostra.required']}"
+											 disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+											 style="width:auto">
+
+							<f:selectItems value="#{amostraController.condicaoAmostraList}" />
+						</h:selectManyListbox>
+					</h:column>
+					<h:column rendered="#{amostraController.tipoAnaliseAlimento}" />
+
+					<h:column rendered="#{amostraController.condicaoAmostraOutros}">
+						<h:outputLabel id="idCondicaoAmostraOutro"
+									   for="condicaoAmostraOutro" value="" />
+					</h:column>
+					<h:column rendered="#{amostraController.condicaoAmostraOutros}">
+						<p:inputText id="condicaoAmostraOutro"
+									 rendered="#{amostraController.condicaoAmostraOutros}"
+									 value="#{amostraController.amostra.condicaoOutro}"
+									 disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+									 style="width:230px">
+							<p:ajax event="blur" update="messages" />
+						</p:inputText>
+					</h:column>
+					<h:column rendered="#{amostraController.condicaoAmostraOutros}" />
+
+					<h:column>
+						<h:outputLabel id="localColetaLabel" for="localColeta"
+							value="#{msgs['amostra.form.label.localcoleta']}#{msgs['padrao.label.doispontos']}" />
+					</h:column>
+					<h:column>
+						<p:inputText id="localColeta"
+							value="#{amostraController.amostra.localColeta}" required="true"
+							disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							requiredMessage="#{msgs['amostra.form.label.localcoleta.required']}"
+							style="width:300px">
+							<p:ajax event="blur" update="messages" />
+						</p:inputText>
+					</h:column>
+					<h:column></h:column>
+					<h:column rendered="#{!amostraController.tipoAnaliseManipulador}">
+						<h:outputLabel id="descricaoAmostraLabel" for="descricaoAmostra"
+							value="#{msgs['amostra.form.label.descricao']}" />
+					</h:column>
+					<h:column rendered="#{!amostraController.tipoAnaliseManipulador}">
+						<p:inputTextarea id="descricaoAmostra" rows="5" cols="30"
+							autoResize="false"
+							value="#{amostraController.amostra.descricaoAmostra}"
+							required="true"
+							disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							requiredMessage="#{msgs['amostra.form.label.descricao.required']}">
+							<p:ajax event="blur" update="messages" />
+						</p:inputTextarea>
+					</h:column>
+					<h:column rendered="#{!amostraController.tipoAnaliseManipulador}"></h:column>
+				</h:panelGrid>
+			</p:fieldset>
+			<br />
+			<p:panel id="caracteristicasGerais"  rendered="false"
+				style="background:none;border:none;">
+
+				<p:fieldset id="caracteristicas"
+					rendered="#{amostraController.tipoAnaliseAlimento}"
+					legend="#{msgs['amostra.form.tabela.pesqmicrorganismo.titulo.3']}"
+					style="width:96%">
+
+					<p:dataTable id="tbcaracteristicas" var="caracteristica"
+						editable="true" editMode="cell" widgetVar="cellCarac"
+						value="#{amostraController.resultadoList}" paginator="true"
+						rows="10" style="width: 99%"
+						emptyMessage="#{msgs['padrao.registro.nenhum.encontrado']}">
+
+						<p:column headerText="Característica">
+							<h:outputText value="cor" />
+						</p:column>
+						<p:column headerText="Descricao">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="Descricao" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="" style="width:100%"
+										disabled="#{!SessaoDoUsuario.analisar}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Esperado">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="Esperado" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="" style="width:100%"
+										disabled="#{!SessaoDoUsuario.analisar}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Resultado">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="Resultado" />
+								</f:facet>
+								<f:facet name="input">
+									<p:inputText value="" style="width:100%"
+										disabled="#{!SessaoDoUsuario.analisar}" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+					</p:dataTable>
+				</p:fieldset>
+			</p:panel>
+			<br />
+			<p:panel id="microrganismosResultado"
+				style="background:none;border:none;">
+				<p:fieldset id="resultados" legend="Microrganismos"
+					style="width:96%">
+
+					<h:panelGrid columns="3"
+						columnClasses="formColumn1, formColumn2, formColumn3">
+
+
+						<h:outputLabel id="codLegislacaoLabel" for="codLegislacao"
+							value="#{msgs['amostra.form.label.codigolegislacao']}#{msgs['padrao.label.doispontos']}"
+							rendered="#{amostraController.tipoAnaliseAlimento}" />
+						<p:inputText id="codLegislacao"
+							value="#{amostraController.amostra.codLegislacao}"
+							disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							rendered="#{amostraController.tipoAnaliseAlimento}"
+							style="width:50px">
+						</p:inputText>
+						<p:commandButton id="btnUpdResult" icon="ui-icon ui-icon-refresh"
+							action="#{amostraController.resultadoPorCodLegislacao}"
+							update="tbmicrorganismos"
+							disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							rendered="#{amostraController.tipoAnaliseAlimento}" />
+
+						<h:outputLabel id="idAnaliseComparativa" for="analiseComparativa"
+							value="#{msgs['amostra.form.label.analisecomparativa.manipulador']}"
+							rendered="#{amostraController.tipoAnaliseManipulador}" />
+						<h:selectOneRadio id="analiseComparativa"
+							disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+							value="#{amostraController.amostra.comparativa}"
+							rendered="#{amostraController.tipoAnaliseManipulador}">
+							<p:ajax event="change"
+								listener="#{amostraController.onAnaliseComparativaChange}"
+								update="microrganismosResultado" />
+							<f:selectItem itemLabel="#{msgs['padrao.label.sim']}" itemValue="#{true}" />
+							<f:selectItem itemLabel="#{msgs['padrao.label.nao']}" itemValue="#{false}" />
+						</h:selectOneRadio>
+						<h:column rendered="#{amostraController.tipoAnaliseManipulador}" />
+
+						<h:column rendered="#{amostraController.exibeAntissepsia}">
+							<h:outputLabel id="antissepsiaLabel" for="antissepsia"
+								value="#{msgs['amostra.form.label.antissepsia']}" />
+						</h:column>
+						<h:column id="antissepsiaCL"
+								  rendered="#{amostraController.exibeAntissepsia}">
+							<h:selectOneRadio id="antissepsia"
+								disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+								value="#{amostraController.amostra.antissepsia}">
+								<f:selectItem itemLabel="#{msgs['padrao.label.sim']}" itemValue="#{true}" />
+								<f:selectItem itemLabel="#{msgs['padrao.label.nao']}" itemValue="#{false}" />
+								<p:ajax event="change" update="tbmicrorganismos" />
+							</h:selectOneRadio>
+						</h:column>
+
+						<h:column rendered="#{amostraController.exibeAntissepsia}" />
+
+						<h:column>
+							<h:outputLabel id="idMicrorganismoListLabel"
+								for="microrganismoList" value="Microrganismo" />
+						</h:column>
+						<h:column>
+							<h:selectOneMenu id="microrganismoList"
+											 converter="SimpleEntityConverter"
+											 value="#{amostraController.microrganismo}" style="width:auto"
+											 disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}">
+								<f:selectItems value="#{amostraController.microrganismoList}" />
+							</h:selectOneMenu>
+						</h:column>
+
+						<p:commandButton id="adicionar"
+										 action="#{amostraController.adicionarMicrorganismo}"
+										 alt="Adicionar" value="Adicionar"
+										 update="microrganismosResultado"
+										 disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}" />
+
+					</h:panelGrid>
+
+					<p:dataTable id="tbmicrorganismos" var="resultado" editable="true"
+						editMode="cell" widgetVar="cellMicro"
+						value="#{amostraController.resultadoList}" paginator="true"
+						rows="10" style="width: 99%"
+						emptyMessage="#{msgs['padrao.registro.nenhum.encontrado']}">
+
+						<p:ajax event="rowEdit" update="@this"
+							listener="#{amostraController.onEditRow(resultado)}" />
+
+						<f:facet name="header">
+							<h:outputText value="Sem antissepsia"
+								rendered="#{amostraController.tipoAnaliseManipulador and  not amostraController.amostra.antissepsia}" />
+							<h:outputText value="Com antissepsia. Forma : "
+								rendered="#{amostraController.tipoAnaliseManipulador and amostraController.amostra.antissepsia}" />
+
+							<p:inputText id="antissepsiaDesc"
+										 value="#{amostraController.amostra.antissepsiaDesc}"
+										 disabled="#{SessaoDoUsuario.visualizar or SessaoDoUsuario.analisar}"
+										 rendered="#{amostraController.tipoAnaliseManipulador and amostraController.amostra.antissepsia}"
+										 style="width:450px"/>
+						</f:facet>
+
+						<p:column
+							headerText="#{msgs['amostra.form.tabela.pesqmicrorganismo.microrganismo']}">
+							<h:outputText value="#{resultado.microrganismo.nome}" />
+						</p:column>
+
+						<p:column
+							headerText="#{msgs['amostra.form.tabela.pesqmicrorganismo.resultado']}">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{resultado.toleranciaIndicativa}" />
+									<h:outputText value="#{resultado.unidadeMedida}"  />
+								</f:facet>
+								<f:facet name="input">
+									<h:inputText value="#{resultado.toleranciaIndicativa}"
+										disabled="#{!SessaoDoUsuario.analisar}" style="width:50%" />
+									<h:outputText value="#{resultado.unidadeMedida}" style="width:50%" />
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+
+						<p:column headerText="Referência">
+							<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="#{resultado.microrganismo.descricao}" />
+								</f:facet>
+
+								<f:facet name="input">
+									<h:inputText value="#{resultado.limiteTolerancia}"
+										disabled="#{!SessaoDoUsuario.analisar}">
+									</h:inputText>
+								</f:facet>
+							</p:cellEditor>
+						</p:column>
+
+						<p:column>
+							<p:rowEditor rendered="#{SessaoDoUsuario.analisar}" />
+							<p:commandButton rendered="#{!SessaoDoUsuario.visualizar and !SessaoDoUsuario.analisar}"
+											 action="#{amostraController.deletarMicrorganismo}"
+											 icon="ui-icon-cancel"
+											 update="tbmicrorganismos"
+											 autoUpdate="true" >
+											<f:setPropertyActionListener target="#{amostraController.resultadodelet}" value="#{resultado}" />
+							</p:commandButton>
+						</p:column>
+
+					</p:dataTable>
+
+					<br />
+
+					<p:panel id="resultadoComp" style="background:none;border:none;">
+						<p:dataTable id="tbmicrorganismosComp" var="resultadoComp"
+							rendered="#{amostraController.analiseComparativa}"
+							editable="true" editMode="cell" widgetVar="cellMicro"
+							value="#{amostraController.resultadoCompList}" paginator="true"
+							rows="10" style="width: 99%"
+							emptyMessage="#{msgs['padrao.registro.nenhum.encontrado']}">
+
+
+							<f:facet name="header">
+								Com antissepsia
+							</f:facet>
+
+							<p:column
+								headerText="#{msgs['amostra.form.tabela.pesqmicrorganismo.microrganismo']}">
+								<h:outputText value="#{resultado.microrganismo.nome}" />
+							</p:column>
+							<p:column
+								headerText="#{msgs['amostra.form.tabela.pesqmicrorganismo.resultado']}">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{resultadoComp.toleranciaIndicativa}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{resultadoComp.toleranciaIndicativa}"
+											disabled="#{!SessaoDoUsuario.analisar}" style="width:100%" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Referência">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText
+											value="#{resultadoComp.toleranciaIndicativaComp}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{resultadoComp.toleranciaIndicativaComp}"
+											disabled="#{!SessaoDoUsuario.analisar}" style="width:100%" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+						</p:dataTable>
+					</p:panel>
+					<br />
+					<br />
+
+					<p:commandButton id="calcular"
+						action="#{amostraController.calcular}"
+						value="Gerar Resultado da Analise"
+						disabled="#{!SessaoDoUsuario.analisar}" process="reultadoFinal" />
+				</p:fieldset>
+			</p:panel>
+
+			<p:panel id="reultadoFinal" style="background:none;border:none;">
+				<p:fieldset id="resultadoLaudo" legend="Laudo" style="width:96%">
+					<p:messages id="messagesLaudo" showSummary="true"
+						showDetail="false" autoUpdate="true" closable="true" />
+
+					<h:panelGrid columns="3"
+						columnClasses="formColumn1, formColumn2, formColumn3">
+
+						<h:column>
+							<h:outputLabel for="classificacaoId" value="Classificação:" />
+						</h:column>
+						<h:column>
+							<h:selectOneMenu id="classificacaoId"
+								disabled="#{!SessaoDoUsuario.analisar}"
+								value="#{amostraController.amostra.nota}"
+								required="true"
+								requiredMessage="Classificação da amostra é de preenchimento obrigatório!"
+								style="width:200px">
+								<f:selectItems value="#{amostraController.classificacaoAnaliseList}" />
+								<p:ajax event="change" listener="#{amostraController.laudoList}" update="laudoId" />
+							</h:selectOneMenu>
+						</h:column>
+						<h:column />
+
+						<h:column>
+							<h:outputLabel for="laudoId" value="Laudo:" />
+						</h:column>
+						<h:column>
+							<h:selectOneMenu id="laudoId"
+								disabled="#{!SessaoDoUsuario.analisar}"
+								value="#{amostraController.laudotmp}"
+								converter="LaudoConverter"
+								style="width:auto">
+								<f:selectItems value="#{amostraController.laudoList}" />
+								<p:ajax event="change" listener="#{amostraController.onLaudoChange}" update="messagesLaudo laudoTx"  />
+							</h:selectOneMenu>
+						</h:column>
+						<h:column />
+
+						<h:column>
+							<h:outputLabel for="laudoTx" />
+						</h:column>
+						<h:column>
+							<p:inputTextarea id="laudoTx" rows="5" cols="30"
+											 autoResize="false"
+											 value="#{amostraController.amostra.laudo}"
+											 readonly="true"
+											 disabled="#{!SessaoDoUsuario.analisar}">
+							</p:inputTextarea>
+						</h:column>
+						<h:column />
+
+						<h:column>
+							<h:outputLabel for="laudoTextId" value="Obs:"/>
+						</h:column>
+						<h:column>
+							<p:inputTextarea id="laudoTextId" rows="5" cols="30"
+											 autoResize="false"
+											 value="#{amostraController.amostra.observacao}"
+											 disabled="#{!SessaoDoUsuario.analisar}" >
+							</p:inputTextarea>
+						</h:column>
+						<h:column />
+
+					</h:panelGrid>
+
+
+				</p:fieldset>
+			</p:panel>
+
+			<br />
+
+			<h:panelGrid columns="3" cellspacing="10">
+				<p:commandButton id="salvar"
+								 action="#{amostraController.salvar}"
+								 value="#{msgs['padrao.botao.salvar']}"
+								 disable="#{!SessaoDoUsuario.editar}"
+								 rendered="#{!SessaoDoUsuario.visualizar}"
+								 />
+
+				<p:commandButton id="voltar" action="#{amostraController.voltar}"
+					value="#{msgs['padrao.botao.voltar']}" async="true" process="@this" />
+
+				<p:button id="imprimir" value="Imprimir" href="../../getPdf?tp=1"
+					target="_blank" />
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+				<mapping class="com.model.Usuario" />
+				<mapping class="com.model.Cliente" />
+				<mapping class="com.model.Funcao" />
+				<mapping class="com.model.Perfil" />
+				<mapping class="com.model.Log" />
+				<mapping class="com.model.Grupo" />
+				<mapping class="com.model.ItemGrupo" />
+				<mapping class="com.model.Microrganismo" />
+				<mapping class="com.model.ItemPadrao" />
+				<mapping class="com.model.Padrao" />
+				<mapping class="com.model.Configuracao" />
+				<mapping class="com.model.Notificacao" />
+				<mapping class="com.model.Solicitacao" />
+				<mapping class="com.model.Amostra" />
+				<mapping class="com.model.MotivoAnalise" />
+				<mapping class="com.model.FormaPagamento" />
+				<mapping class="com.model.CondicaoAmostra" />
+				<mapping class="com.model.Laudo" />
+				<mapping class="com.model.Resultado" />
+    </session-factory>
+</hibernate-configuration>

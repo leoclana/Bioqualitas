@@ -1,0 +1,192 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="cadMicrorganismo" >
+
+			<h:inputHidden value="#{microrganismoController.itemPadrao.idItemPadrao}" />
+				
+				<p:fieldset id="orientacoes1" toggleable="true" toggleSpeed="500"
+					style="width:96%"
+					legend="#{msgs['padrao.secao.orientacoes.label']}">
+
+					<h:panelGrid>
+						<h:outputText
+							value="1. #{msgs['microrganismo.form.label.orientacoes.Dados1']}" />
+						<h:outputText
+							value="2. #{msgs['microrganismo.form.label.orientacoes.Dados2']}" />
+						<h:outputText
+							value="3. #{msgs['padrao.form.label.orientacoes.Dados3']}" />
+					</h:panelGrid>
+				</p:fieldset>
+
+				<BR />
+
+				<p:fieldset id="dadosBasicos" legend="Dados Básicos"
+					style="width:96%">
+
+					<p:messages id="messages" showSummary="true" showDetail="false" autoUpdate="true"
+						closable="true" />
+
+					<h:panelGrid columnClasses="formColumn1Usuario,formColumn2" columns="2">
+					
+						<p:column>
+							<h:outputLabel for="microrganismo"
+								value="#{msgs['microrganismo.form.label.microrganismo']}#{msgs['padrao.label.doispontos']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="microrganismo" value="#{microrganismoController.microrganismo.nome}"
+								required="true"
+								disabled="#{SessaoDoUsuario.visualizar}"
+								requiredMessage="#{msgs['microrganismo.form.label.nome.obrigatorio']}"
+								style="width:300px">
+								<f:validateLength minimum="4" />
+								<p:ajax event="blur" update="messages" />
+							</p:inputText>
+						</p:column>
+						
+						<p:column>
+							<h:outputLabel for="toleranciaInf"
+								value="#{msgs['microrganismo.form.label.toleranciainf']}#{msgs['padrao.label.doispontos']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="toleranciaInf" maxlength="12"
+								disabled="#{SessaoDoUsuario.visualizar}" 
+								value="#{microrganismoController.itemPadrao.toleranciaLimInf}" size="12"
+								required="true"
+								requiredMessage="#{msgs['microrganismo.form.label.toleranciainf.obrigatorio']}">
+								<f:validateLength minimum="1" maximum="12" />
+							</p:inputText>
+						</p:column>
+						
+						<p:column>
+							<h:outputLabel for="toleranciaSup"
+								value="#{msgs['microrganismo.form.label.toleranciasup']}#{msgs['padrao.label.doispontos']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="toleranciaSup" maxlength="12"
+								disabled="#{SessaoDoUsuario.visualizar}" 
+								value="#{microrganismoController.itemPadrao.toleranciaLimSup}" size="12"
+								required="true"
+								requiredMessage="#{msgs['microrganismo.form.label.toleranciasup.obrigatorio']}">
+								<f:validateLength minimum="1" maximum="12" />
+							</p:inputText>
+						</p:column>
+
+
+
+
+
+
+
+						<p:column>
+							<h:outputLabel for="unidadedemedida" value="#{msgs['microrganismo.form.label.unidadedemedida']}#{msgs['padrao.label.doispontos']}" />
+						</p:column>
+						<p:column>
+							<p:inputText id="unidadedemedida" value="#{microrganismoController.itemPadrao.unidadeMedida}"
+										 disabled="#{SessaoDoUsuario.visualizar}"
+										 style="width:90px"
+										 maxlength="10">
+								<f:validateLength maximum="10" />
+							</p:inputText>
+						</p:column>
+
+
+
+
+
+
+
+
+
+
+
+						
+						<p:column>
+							<p:outputLabel for="tipoAnaliseMenu"
+								value="#{msgs['microrganismo.consulta.label.tipoanalise']}#{msgs['padrao.label.doispontos']}" /> 
+						</p:column>
+						
+						<p:column>
+							<h:selectOneMenu id="tipoAnaliseMenu"
+								value="#{microrganismoController.itemPadrao.tipoAnalise}"
+								style="width:300px">
+								<f:selectItems
+									value="#{microrganismoController.tipoAnaliseList}" />
+								<p:ajax update="grupolabelpanel, grupomenupanel, itemgrupolabelpanel, itemgrupomenupanel" event="change" />
+
+							</h:selectOneMenu>
+						</p:column>
+						
+						<p:column>
+							<h:panelGrid id="grupolabelpanel">
+								<p:outputLabel for="grupoMenu"
+									value="#{msgs['microrganismo.consulta.label.grupo']}#{msgs['padrao.label.doispontos']}"
+									rendered="#{microrganismoController.tipoAnaliseAlimento}" />								
+							</h:panelGrid>
+						</p:column>
+						
+						
+						<p:column>
+							<h:panelGrid id="grupomenupanel">
+								<h:selectOneMenu id="grupoMenu"
+									rendered="#{microrganismoController.tipoAnaliseAlimento}"
+									value=""
+									style="width:300px"> 
+									<f:selectItems
+										value="#{microrganismoController.comboGrupo.listaSelecao}" />
+									<p:ajax listener="#{microrganismoController.onGrupoChange}"
+										update="itemGrupoMenu" />
+								</h:selectOneMenu>
+							</h:panelGrid>
+						</p:column>
+
+
+						<p:column>
+							<h:panelGrid id="itemgrupolabelpanel">
+								<p:outputLabel for="itemGrupoMenu"
+									value="#{msgs['microrganismo.consulta.label.itemgrupo']}#{msgs['padrao.label.doispontos']}"
+									rendered="#{microrganismoController.tipoAnaliseAlimento}" />
+							</h:panelGrid>
+						</p:column>
+						<p:column>
+							<h:panelGrid id="itemgrupomenupanel">
+								<h:selectOneMenu id="itemGrupoMenu"
+									rendered="#{microrganismoController.tipoAnaliseAlimento}"
+									value="#{microrganismoController.itemPadrao.itemGrupo}" 
+									style="width:300px">
+									<f:selectItems
+										value="#{microrganismoController.comboItemGrupo.listaSelecao}" />
+									<p:ajax event="change"
+										listener="#{microrganismoController.onChangeItemGrupo}"
+										update="" />
+								</h:selectOneMenu>
+							</h:panelGrid>
+						</p:column>
+
+					</h:panelGrid>
+
+				</p:fieldset>
+				<BR />
+				<h:panelGrid columns="3" cellspacing="10">
+					<p:commandButton id="adicionar"	value="#{msgs['padrao.botao.salvar']}"
+						action="#{microrganismoController.salvar}" 
+						ajax="false" rendered="#{!SessaoDoUsuario.visualizar}"/>
+
+					<p:commandButton id="voltar" value="#{msgs['padrao.botao.voltar']}"
+						action="#{microrganismoController.listar}"
+						async="true" process="@this" />
+
+					<p:commandButton id="limpar" value="#{msgs['padrao.botao.limpar']}"
+						action="#{microrganismoController.limpar}" 
+						type="reset" ajax="false" rendered="#{SessaoDoUsuario.criar}"/>
+				</h:panelGrid>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

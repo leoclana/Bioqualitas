@@ -1,0 +1,113 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form>
+
+			<p:fieldset id="orientacoes1" toggleable="true" toggleSpeed="500"
+				legend="#{msgs['padrao.secao.orientacoes.label']}">
+				<h:panelGrid>
+					<p>
+						<h:outputText
+							value="1. #{msgs['cliente.consulta.label.orientacoes.Dados1']}" />
+						<h:outputText
+							value="2. #{msgs['cliente.consulta.label.orientacoes.Dados2']}" />
+					</p>
+					<p>
+						<p:commandButton action="#{clienteController.criar}" type="submit"
+							icon="ui-icon ui-icon-document" ajax="false"
+							value="#{msgs['padrao.botao.novo']}" />
+					</p>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<br />
+
+			<p:fieldset legend="#{msgs['cliente.consulta.cabecalho']}">
+				<p:dataTable id="clientes" var="cliente"
+					widgetVar="dataTableClientes"
+					value="#{clienteController.clienteList}" paginator="true" rows="10"
+					style="width: 100%"
+					emptyMessage="#{msgs['padrao.registro.nenhum.encontrado']}"
+					filteredValue="#{clienteController.clienteListFiltered}">
+
+					<f:facet name="header">
+						<p:outputPanel>
+							<h:outputText value="#{msgs['padrao.label.filtrar']}#{msgs['padrao.label.doispontos']}" />
+							<p:inputText id="globalFilter"
+										 onkeyup="PF('dataTableClientes').filter()"
+										 style="width:150px;margin-left:10px"
+										 placeholder="Enter keyword"/>
+						</p:outputPanel>
+					</f:facet>
+
+					<p:column filterBy="#{cliente.nome}"
+						headerText="#{msgs['cliente.consulta.tabela.colunaNome']}"
+						filterMatchMode="contains"
+						filterStyle="display:none; visibility:hidden;">
+						<h:commandLink value="#{cliente.nome}"
+							action="#{clienteController.visualizar}">
+							<f:setPropertyActionListener
+								target="#{clienteController.cliente}" value="#{cliente}" />
+						</h:commandLink>
+					</p:column>
+					<p:column filterBy="#{cliente.cpfcnpj}"
+						headerText="#{msgs['padrao.consulta.tabela.colunaCNPJ']}"
+						filterMatchMode="contains"
+						filterStyle="display:none; visibility:hidden;">
+						<h:outputText value="#{cliente.cpfcnpj}"
+							converter="CnpjCpfMaskConverter" />
+					</p:column>
+					<p:column filterBy="#{cliente.email}"
+						headerText="#{msgs['padrao.consulta.tabela.colunaEmail']}"
+						filterMatchMode="contains"
+						filterStyle="display:none; visibility:hidden;">
+						<h:outputText value="#{cliente.email}" />
+					</p:column>
+
+					<p:column filterBy="#{cliente.ativo}"
+							  headerText="#{msgs['padrao.consulta.tabela.colunaStatus']}"
+							  filterMatchMode="exact"
+							  filterStyle="display:none; visibility:hidden;">
+						<f:facet name="filter">
+							<p:selectOneMenu onchange="PF('dataTableClientes').filter()" >
+								<f:converter converterId="javax.faces.Boolean" />
+								<f:selectItem itemLabel="Todos" itemValue="#{null}" noSelectionOption="true" />
+								<f:selectItem itemLabel="Ativo" itemValue="true" />
+								<f:selectItem itemLabel="Desativado" itemValue="false" />
+							</p:selectOneMenu>
+						</f:facet>
+						<h:outputText value="#{cliente.ativo ? 'Ativo': 'Desativado'}" />
+					</p:column>
+
+					<p:column>
+						<p:commandButton action="#{clienteController.editar}"
+							icon="ui-icon ui-icon-pencil">
+							<f:setPropertyActionListener
+								target="#{clienteController.cliente}" value="#{cliente}" />
+						</p:commandButton>
+					</p:column>
+
+					<p:column>
+						<p:commandButton action="#{clienteController.deletar}"
+							type="submit" icon="ui-icon ui-icon-trash"
+							onclick="if (!confirm('Confirma a exlusão do cliente #{cliente.nome} ?')) return false;"
+							ajax="false"
+							rendered="#{empty cliente.solicitacoes }"
+							>
+
+							<f:setPropertyActionListener
+								target="#{clienteController.cliente}" value="#{cliente}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:fieldset>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

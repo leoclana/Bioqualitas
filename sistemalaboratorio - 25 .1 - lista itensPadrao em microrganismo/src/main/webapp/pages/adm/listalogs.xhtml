@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form>
+			<p:fieldset legend="Logs">
+				<p:dataTable id="tblog" var="item" widgetVar="dataTableUsuarios"
+					value="#{logController.logList}" paginator="true" rows="10" 
+					style="width: 100%" 
+					emptyMessage="#{msgs['padrao.registro.nenhum.encontrado']}"
+					filteredValue="#{logController.logListFiltered}">
+
+					<f:facet name="header">
+						<h:outputText for="globalFilter" value="Filtrar:" />
+						<p:inputText id="globalFilter"
+							onkeyup="PF('dataTableLog').filter()"
+							style="width:150px;margin-left:10px"
+									 placeholder="Enter keyword" />
+					</f:facet>
+
+					<p:column
+						filterBy="#{item.data}"
+						filterMatchMode="contains"
+						filterStyle="display:none; visibility:hidden;">
+						<f:facet name="header">
+							<h:outputText value="data" />
+						</f:facet>
+						<h:commandLink value="#{item.data}"
+							action="#{logController.visualizar}">
+							<f:setPropertyActionListener target="#{logController.log}"
+								value="#{item}" />
+						</h:commandLink>
+					</p:column>
+					<p:column
+						filterBy="#{item.descricao}"
+						filterMatchMode="contains"
+						filterStyle="display:none; visibility:hidden;">
+						<f:facet name="header">
+							<h:outputText value="Descricao" />
+						</f:facet>
+						<h:outputText value="#{item.descricao}" />
+					</p:column>
+				</p:dataTable>
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+    http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+    version="2.0">
+  	
+  	<!-- JSF and Spring are integrated -->
+  	<application>
+    	<el-resolver>
+    		org.springframework.web.jsf.el.SpringBeanFacesELResolver
+    	</el-resolver>
+  	</application>
+
+	<!-- configuration of navigation rules -->	
+	
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>home</from-outcome>
+            <to-view-id>/pages/notificacao/listanotificacoes.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>listarsolicitacoes</from-outcome>
+            <to-view-id>/pages/analises/listaanalises.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>formsolicitacao</from-outcome>
+            <to-view-id>/pages/analises/formsolicitacao.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    
+	<navigation-rule>
+	    <from-view-id>/pages/notificacao/formnotificacao.xhtml</from-view-id> 
+	    <navigation-case>
+	  		<from-outcome>listar</from-outcome>
+            <to-view-id>/pages/notificacao/listanotificacoes.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+	    <from-view-id>/pages/notificacao/listanotificacoes.xhtml</from-view-id> 
+	    <navigation-case>
+	        <from-outcome>form</from-outcome>
+            <to-view-id>/pages/notificacao/formnotificacao.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+	    <from-view-id>/pages/analises/formsolicitacao.xhtml</from-view-id> 
+	    <navigation-case>
+	  		<from-outcome>listar</from-outcome>
+            <to-view-id>/pages/analises/listaanalises.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+	    <from-view-id>/pages/analises/listaanalises.xhtml</from-view-id> 
+	    <navigation-case>
+	        <from-outcome>form</from-outcome>
+            <to-view-id>/pages/analises/formsolicitacao.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>	
+    <navigation-rule>
+	    <from-view-id>/pages/analises/formamostra.xhtml</from-view-id> 
+	    <navigation-case>
+	  		<from-outcome>listar</from-outcome>
+            <to-view-id>/pages/analises/formsolicitacao.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>  
+    <navigation-rule>
+	    <from-view-id>/pages/analises/formsolicitacao.xhtml</from-view-id> 
+	    <navigation-case>
+	        <from-outcome>form</from-outcome>
+            <to-view-id>/pages/analises/formamostra.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>	
+    
+	<navigation-rule>
+	    <from-view-id>/pages/adm/formusuario.xhtml</from-view-id> 
+	    <navigation-case>
+	  		<from-outcome>listar</from-outcome>
+            <to-view-id>/pages/adm/listausuarios.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+	    <from-view-id>/pages/adm/listausuarios.xhtml</from-view-id> 
+	    <navigation-case>
+	        <from-outcome>form</from-outcome>
+            <to-view-id>/pages/adm/formusuario.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>alterardadoscadastrais</from-outcome>
+            <to-view-id>/pages/adm/formusuario.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>alterarsenha</from-outcome>
+            <to-view-id>/pages/adm/senha.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+	    <from-view-id>/pages/adm/formcliente.xhtml</from-view-id> 
+	    <navigation-case>
+	  		<from-outcome>listar</from-outcome>
+            <to-view-id>/pages/adm/listaclientes.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+	    <from-view-id>/pages/adm/listaclientes.xhtml</from-view-id> 
+	    <navigation-case>
+	        <from-outcome>form</from-outcome>
+            <to-view-id>/pages/adm/formcliente.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+        <navigation-rule>
+	    <from-view-id>/pages/adm/formMicrorganismo.xhtml</from-view-id> 
+	    <navigation-case>
+	  		<from-outcome>listar</from-outcome>
+            <to-view-id>/pages/adm/listaMicrorganismos.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+	    <from-view-id>/pages/adm/listaMicrorganismos.xhtml</from-view-id> 
+	    <navigation-case>
+	        <from-outcome>form</from-outcome>
+            <to-view-id>/pages/adm/formMicrorganismo.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+    <navigation-rule>
+	    <from-view-id>/pages/tec/formperfil.xhtml</from-view-id> 
+	    <navigation-case>
+	  		<from-outcome>listar</from-outcome>
+            <to-view-id>/pages/tec/listaperfis.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>    
+    <navigation-rule>
+	    <from-view-id>/pages/tec/listaperfis.xhtml</from-view-id> 
+	    <navigation-case>
+	        <from-outcome>form</from-outcome>
+            <to-view-id>/pages/tec/formperfil.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>	
+    
+    <navigation-rule>
+	    <from-view-id>/pages/tec/formmotivo.xhtml</from-view-id> 
+	    <navigation-case>
+	  		<from-outcome>listar</from-outcome>
+            <to-view-id>/pages/tec/listamotivos.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>    
+    <navigation-rule>
+	    <from-view-id>/pages/tec/listamotivos.xhtml</from-view-id> 
+	    <navigation-case>
+	        <from-outcome>form</from-outcome>
+            <to-view-id>/pages/tec/formmotivo.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>	
+    
+    <navigation-rule>
+	    <from-view-id>/pages/tec/formforma.xhtml</from-view-id> 
+	    <navigation-case>
+	  		<from-outcome>listar</from-outcome>
+            <to-view-id>/pages/tec/listaformas.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>    
+    <navigation-rule>
+	    <from-view-id>/pages/tec/listaformas.xhtml</from-view-id> 
+	    <navigation-case>
+	        <from-outcome>form</from-outcome>
+            <to-view-id>/pages/tec/formforma.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>	
+    
+    <navigation-rule>
+	    <from-view-id>/pages/tec/formfuncao.xhtml</from-view-id> 
+	    <navigation-case>
+	  		<from-outcome>listar</from-outcome>
+            <to-view-id>/pages/tec/listafuncoes.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+	    <from-view-id>/pages/tec/listafuncoes.xhtml</from-view-id> 
+	    <navigation-case>
+	        <from-outcome>form</from-outcome>
+            <to-view-id>/pages/tec/formfuncao.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>  
+      
+    <navigation-rule>
+	    <from-view-id>/pages/adm/formlog.xhtml</from-view-id> 
+	    <navigation-case>
+	  		<from-outcome>listar</from-outcome>
+            <to-view-id>/pages/adm/listalogs.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+	    <from-view-id>/pages/adm/listalogs.xhtml</from-view-id> 
+	    <navigation-case>
+	        <from-outcome>form</from-outcome>
+            <to-view-id>/pages/adm/formlog.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    
+	<converter>
+		<converter-id>CpfConverter</converter-id>
+		<converter-class>com.util.converter.CpfConverter</converter-class>
+	</converter>
+	
+	<converter>
+		<converter-id>GrupoConverter</converter-id>
+		<converter-class>com.util.converter.GrupoConverter</converter-class>
+	</converter>
+	
+	<converter>
+		<converter-id>CnpjCpfMaskConverter</converter-id>
+		<converter-class>com.util.converter.CnpjCpfMaskConverter</converter-class>
+	</converter>
+
+	<converter>
+		<converter-id>SimpleEntityConverter</converter-id>
+		<converter-class>com.util.converter.SimpleEntityConverter</converter-class>
+	</converter>
+
+	<converter>
+        <converter-id>EnumConverter</converter-id>
+        <converter-class>com.util.converter.EnumConverter</converter-class>
+    </converter>
+    
+	<converter>
+        <converter-id>MicrorganismoConverter</converter-id>
+        <converter-class>com.util.converter.MicrorganismoConverter</converter-class>
+    </converter>
+
+    <converter>
+        <converter-id>LaudoConverter</converter-id>
+        <converter-class>com.util.converter.LaudoConverter</converter-class>
+    </converter>
+
+	<lifecycle>
+		<phase-listener>com.filter.AuthorizationListener</phase-listener>
+	</lifecycle>
+</faces-config>

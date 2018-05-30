@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<f:loadBundle basename="mensagens" var="msgs" />
+
+<h:head>
+    <title><h:outputText
+            value="#{msgs['sistema.label.titulo']}" /></title>
+</h:head>
+<ui:composition template="/pages/template.xhtml">
+    <ui:define name="corpo">
+        <h:form id="justificativaForm">
+            <p:panel style="width:100%">
+            <h:outputText styleClass="errorPage" value="PÁGINA NÃO ENCONTRADA"></h:outputText>
+            </p:panel>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

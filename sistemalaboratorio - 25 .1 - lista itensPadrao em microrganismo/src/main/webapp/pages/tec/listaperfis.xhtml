@@ -1,0 +1,61 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form>
+
+			<p:fieldset legend="#{msgs['cadastroPerfil.label.titulo']}">
+
+				<p:dataTable id="perfis" var="perfil"
+					value="#{perfilController.perfilList}" paginator="true" rows="10"
+					style="width: 100%"
+					emptyMessage="#{msgs['padrao.registro.nenhum.encontrado']}">
+
+					<f:facet name="header">
+						<h:panelGrid>
+							<p:commandButton value="Criar Perfil"
+								action="#{perfilController.criar}" type="submit"
+								icon="ui-icon ui-icon-document" ajax="false" />
+						</h:panelGrid>
+					</f:facet>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Name" />
+						</f:facet>
+
+						<h:commandLink value="#{perfil.nome}"
+							action="#{perfilController.editar}">
+							<f:setPropertyActionListener target="#{perfilController.perfil}"
+								value="#{perfil}" />
+						</h:commandLink>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="Ativo" />
+						</f:facet>
+						<h:outputText value="#{perfil.ativo}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="" />
+						</f:facet>
+						<p:commandButton action="#{perfilController.deletar}"
+							type="submit" icon="ui-icon ui-icon-trash"
+							onclick="if (!confirm('Confirma a exlucão do perfil #{perfil.nome} ?')) return false;"
+							ajax="false">
+							<f:setPropertyActionListener target="#{perfilController.perfil}"
+								value="#{perfil}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+			</p:fieldset>
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+</html>

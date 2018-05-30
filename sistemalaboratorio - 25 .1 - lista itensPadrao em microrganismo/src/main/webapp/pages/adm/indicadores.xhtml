@@ -1,0 +1,126 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/pages/template.xhtml">
+	<ui:define name="corpo">
+		<h:form id="indicadoresForm">
+
+			<p:growl id="growl" life="2500" />
+			<p:ajaxStatus onstart="statusDialog.show();"
+				onsuccess="statusDialog.hide();" />
+
+			<p:dialog modal="true" widgetVar="statusDialog" header="Carregando"
+				draggable="false" closable="false">
+				<p:graphicImage value="/resources/imagens/ajax-loader-bar.gif"></p:graphicImage>
+			</p:dialog>
+				
+			<p:fieldset id="orientacoes1" toggleable="true" toggleSpeed="500"
+				legend="#{msgs['padrao.secao.orientacoes.label']}">
+				<h:panelGrid>
+					<p>
+						<h:outputText value="1. Selecione o indicador desejado" />
+					</p>
+					<p>
+						<h:outputText value="2. Selecione o periodo desejado" />
+					</p>
+					<p>
+						<h:outputText
+							value="3. Clique no botão 'Gerar' para gerar o gráfico" />
+					</p>
+				</h:panelGrid>
+			</p:fieldset>
+			<br />
+			<p:fieldset id="fdg" legend="Indicadores">
+
+				<h:panelGrid id="filtro" columns="2"
+					columnClasses="formColumn1, formColumn2">
+					<h:column>
+						<h:outputText value="Indicador" />
+					</h:column>
+					<h:column>
+						<h:selectOneMenu id="tipoIndicador"
+							value="#{indicadorController.tipoIndicador}" required="true"
+							requiredMessage="#{msgs['padrao.selectItem.selecione']}"
+							style="width:auto">
+							<p:ajax event="change"
+								listener="#{indicadorController.onTipoIndicadorChange}"
+								update="filtro" />
+							<f:selectItem itemLabel="#{msgs['padrao.selectItem.selecione']}"
+								itemValue="" noSelectionOption="true" />
+							<f:selectItems value="#{indicadorController.tipoIndicadorList}" />
+						</h:selectOneMenu>
+					</h:column>
+					<h:column rendered="#{indicadorController.tipoIndicador==null or
+											 !indicadorController.indicador1}">
+						<h:outputText id="txcliente" value="Cliente" />
+					</h:column>
+					<h:column rendered="#{indicadorController.tipoIndicador==null or
+											 !indicadorController.indicador1}">
+						<h:selectOneMenu id="cbcliente" converter="SimpleEntityConverter"
+							value="#{indicadorController.cliente}"
+							requiredMessage="#{msgs['padrao.selectItem.selecione']}"
+							style="width:auto">
+							<f:selectItems value="#{indicadorController.clienteList}" />
+						</h:selectOneMenu>
+					</h:column>
+					<h:column rendered="#{indicadorController.tipoIndicador==null or
+											 indicadorController.indicador1}">
+						<h:outputText id="txmotivoanalise" value="Motivo da Analise" />
+					</h:column>
+					<h:column rendered="#{indicadorController.tipoIndicador==null or
+											 indicadorController.indicador1}">
+						<h:selectOneMenu id="cbmotivoanalise" converter="SimpleEntityConverter"
+							value="#{indicadorController.motivoAnalise}"
+							requiredMessage="#{msgs['padrao.selectItem.selecione']}"
+							style="width:auto">
+							<f:selectItems value="#{indicadorController.motivoAnaliseList}" />
+						</h:selectOneMenu>
+					</h:column>
+					<h:column>
+						<h:outputText value="Periodo" />
+					</h:column>
+					<h:column>
+						<h:outputText value="De " />
+						<p:calendar id="pbegin" value="#{indicadorController.pBegin}"
+							readonly="false" required="true"
+							requiredMessage="Necessário informar o periodo completo"
+							pattern="#{msgs['sistema.formato.data']}">
+						</p:calendar>
+						<br />
+						<h:outputText value="Até " />
+						<p:calendar id="pend" value="#{indicadorController.pEnd}"
+							readonly="false" required="true"
+							requiredMessage="Necessário informar o periodo completo"
+							pattern="#{msgs['sistema.formato.data']}">
+						</p:calendar>
+					</h:column>
+					<p:commandButton action="#{indicadorController.gerar}" ajax="false"
+						update="grafico growl"  value="Gerar" />
+				</h:panelGrid>
+			</p:fieldset>
+			<br />
+			<p:panel id="grafico" 
+				rendered="#{indicadorController.cartesianModel != null}">
+				<div align="center">
+					<p:pieChart id="pie" title="% no periodo selecionado"
+						value="#{indicadorController.pieModel}"
+						rendered="#{indicadorController.pieModel != null}"
+						legendPosition="w" showDataLabels="true" dataFormat="%"
+						style="width:600px;height:300px" />
+
+				</div>
+				<div>
+					<p:lineChart id="linear" title="% acumulada até a data indicada"
+						value="#{indicadorController.cartesianModel}"
+						rendered="#{indicadorController.cartesianModel != null}"
+						legendPosition="e" minY="0" maxY="100" style="height:300px" />
+				
+				</div>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
